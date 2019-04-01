@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" th:href="@{/static/easyui/themes/easy.common.css}"></link>
+    <script th:inline="javascript">
+        var contextPath = [[@{/}]];
+        var interceptorToken = [[${token}]];
+        var interceptorUserId = [[${userId}]];
+    </script>
+    <script th:src="@{/static/easyui/easy.common.js}"></script>
+    <script th:src="@{/static/myFun.js}"></script>
+    <script th:inline="javascript">
+        function picUpload_1() {
+            var param = [
+                {key:"myfile", value:"#imgFileUpload_1"},
+                {key:"param1", value:"你好啊"},
+                {key:"param2", value:"我好啊"}
+            ];
+            var result = ajaxSynchUploadFilePost("user/uploadDemo/uploadFileImg", param);
+            if (result.code == '200') {
+                alertSuccess();
+            } else {
+                alertWarn(result.msg);
+            }
+        }
+        function picUpload_2() {
+            // 获取签名，进行上传
+        }
+        function excelImport() {
+            var param = [{key:"myfile", value:"#excelFileUpload"}];
+            var result = ajaxSynchUploadFilePost("user/uploadDemo/uploadFileExcel", param);
+            if (result.code == '200') {
+                alertSuccess();
+            } else {
+                alertWarn(result.msg);
+            }
+        }
+        function excelExport() {
+            var param1 = "你好啊";
+            var param2 = "我好啊";
+            var url = urlHandleContext("user/uploadDemo/excelExport");
+            url = url + "&param1=" + param1 + "&param2=" + param2;
+            window.location.href = url;
+        }
+    </script>
+</head>
+<body>
+<h1>上传下载演示</h1>
+<input type="file" id="imgFileUpload_1"/><a href="#" onclick="picUpload_1()">文件上传-传统</a><br/><hr/>
+<input type="file" id="imgFileUpload_2"/><a href="#" onclick="picUpload_2()">文件上传-阿里云</a><br/><hr/>
+<a th:href="@{/static/download/downDemo.xls}">下载模板</a><br/><hr/>
+<a href="#" onclick="excelExport()">导出Excel</a><br/><hr/>
+<input type="file" id="excelFileUpload"/><a href="#" onclick="excelImport()">上传Excel</a>
+</body>
+</html>
