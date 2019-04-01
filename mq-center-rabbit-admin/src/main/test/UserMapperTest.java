@@ -1,6 +1,6 @@
 import com.mq.conf.Application;
-import com.mq.data.model.User;
-import com.mq.mapper.UserMapper;
+import com.mq.data.entity.TbUser;
+import com.mq.dbopt.mapper.UserMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,17 +15,8 @@ public class UserMapperTest {
 	private UserMapper userMapper;
 
 	@Test
-	public void testInsert() throws Exception {
-        User user = new User();
-        user.setUserName("sss");
-        user.setPassword("ppp");
-		int c = userMapper.insert(user);
-        System.out.println(c);
-    }
-
-	@Test
 	public void testSelect() throws Exception {
-		User user = userMapper.selectByPrimaryKey(1L);
-        System.out.println(user.getUserName());
+		TbUser user = userMapper.selectByPrimaryKey(1L);
+        System.out.println(user.getUname());
     }
 }
