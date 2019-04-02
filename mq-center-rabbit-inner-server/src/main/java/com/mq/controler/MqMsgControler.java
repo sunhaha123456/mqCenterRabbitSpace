@@ -7,11 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
-@RequestMapping("/login")
-public class LoginControler {
+@RequestMapping("/mqMsg")
+public class MqMsgControler {
 
-    @GetMapping(value = "/toLogin")
-    public String toLogin() {
-        return "login";
-    }
 }
