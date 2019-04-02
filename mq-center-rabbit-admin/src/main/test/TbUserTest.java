@@ -32,20 +32,17 @@ public class TbUserTest {
     }
 
 	@Test
-	public void testFind() throws Exception {
-		System.out.println(JsonUtil.objectToJson(tbUserRepository.findAll()));
-		/*
-		TbUser user = new TbUser();
-		user.setCreateDate(new Date());
-		user.setUname("哈哈哈");
-		user.setUpwd("aaaa");
-		tbUserRepository.save(user);
-		*/
-		System.out.println(JsonUtil.objectToJson(tbUserRepository.findAll()));
+	public void testFindById() throws Exception {
+		Optional<TbUser> tbUserOptional = tbUserRepository.findById(1L);
+		if (tbUserOptional.isPresent()) {
+			TbUser user = tbUserOptional.get();
+			System.out.println(JsonUtil.objectToJson(user));
+		}
+	}
 
-
-
-		//Optional<TbUser> tbUserOptional = tbUserRepository.findById(1L);
-		//System.out.println(user.getUname());
+	@Test
+	public void testListByUname() throws Exception {
+		List<TbUser> userList = tbUserRepository.listByUname("111");
+		System.out.println(JsonUtil.objectToJson(userList));
 	}
 }
