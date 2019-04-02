@@ -18,8 +18,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @RestController
 @ComponentScan("com.mq")
 @EntityScan({"com.mq.data.entity"})
-@EnableJpaRepositories({"com.mq.repository", "com.mq.common.repository"})
-@MapperScan("com.mq.mapper")
+@EnableJpaRepositories({"com.mq.dbopt.repository", "com.mq.common.repository"})
+@MapperScan("com.mq.dbopt.mapper")
 @SpringBootApplication
 public class Application extends WebMvcConfigurationSupport {
 

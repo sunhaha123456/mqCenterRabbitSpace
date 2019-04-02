@@ -1,6 +1,6 @@
 import com.mq.conf.Application;
 import com.mq.data.entity.TbUser;
-import com.mq.dbopt.mapper.UserMapper;
+import com.mq.dbopt.mapper.TbUserMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class UserMapperTest {
 
 	@Autowired
-	private UserMapper userMapper;
+	private TbUserMapper userMapper;
 
 	@Test
 	public void testInsert() throws Exception {
