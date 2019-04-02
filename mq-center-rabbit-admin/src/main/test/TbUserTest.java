@@ -27,6 +27,7 @@ public class TbUserTest {
 
 	@Test
 	public void testSelect() throws Exception {
+
 		TbUser user = tbUserMapper.selectByPrimaryKey(1L);
         System.out.println(user.getUname());
     }
