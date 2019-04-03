@@ -24,4 +24,14 @@ public class TbMqMsgPushReleation extends BaseDataIdLong {
 	// 0：推送失败 1：推送成功
 	@Column(name = "status", columnDefinition = "INT(1) DEFAULT 0 COMMENT '推送状态'")
 	private Integer status;
+
+	// 推送类别
+	// 0：系统进行推送 1：管理员主动推送
+	@Column(name = "push_type", columnDefinition = "INT(1) DEFAULT 0 COMMENT '推送状态'")
+	private Integer pushType;
+
+	// 主动推送消息的管理员id
+	// 备注：当推送类别是 1，表示 管理员主动推送时，使用
+	@Column(name = "active_push_mq_msg_user_id", columnDefinition = "INT(11) COMMENT '主动推送消息的管理员id'")
+	private Long activePushMqMsgUserId;
 }

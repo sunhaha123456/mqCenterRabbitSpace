@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>盛行天下运营系统</title>
+    <title>消息推送中心</title>
     <meta charset="UTF-8" />
     <link rel="stylesheet" th:href="@{/static/home/css/home.css}"></link>
     <style th:inline="text">
@@ -158,11 +158,21 @@
             $("#unameHomeSpan").html([[${uname}]]);
             $("#loginOutHref").attr("href", urlHandleContext("login/out"));
             //nav初始化
-            var res = ajaxSynchPostJson("user/menuManage/getUserMenu", null);
-            if (res.code == "200") {
-                menuInit(res.data);
-                addTab("上传下载", urlHandleContext("user/uploadDemo/toUploadDemo"));
-            }
+            var menuData = [{
+                "id": 5,
+                "menuName": "上传下载",
+                "iconCls": "icon-sys",
+                "checked": false,
+                "children": [{
+                    "id": 6,
+                    "menuName": "上传下载",
+                    "iconCls": "icon-nav",
+                    "url": "user/uploadDemo/toUploadDemo",
+                    "checked": false
+                }]
+            }];
+            menuInit(menuData);
+            addTab("上传下载", urlHandleContext("user/uploadDemo/toUploadDemo"));
         });
     </script>
 </head>
