@@ -1,6 +1,6 @@
 package com.mq.data.entity;
 
-import com.mq.common.data.base.BaseDataIdStr;
+import com.mq.common.data.base.BaseDataIdLong;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -15,7 +15,7 @@ import javax.persistence.Table;
 @Data
 @Entity
 @Table(name = "tb_mq_msg")
-public class TbMqMsg extends BaseDataIdStr {
+public class TbMqMsg extends BaseDataIdLong {
 
 	@Column(name = "msg_str", columnDefinition = "varchar(500) COMMENT '消息字符串'")
 	private String msgStr;
