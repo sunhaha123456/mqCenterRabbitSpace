@@ -15,7 +15,7 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @JsonSerialize
-public class ResponseString implements Serializable {
+public class StringResponse implements Serializable {
 
     // 响应数据
     @JsonInclude(JsonInclude.Include.NON_NULL)

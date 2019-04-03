@@ -42,7 +42,7 @@ public class TbUserTest {
 
 	@Test
 	public void testListByUname() throws Exception {
-		List<TbUser> userList = tbUserRepository.listByUname("111");
+		List<TbUser> userList = tbUserRepository.listByUnameAndPwd("111", "222");
 		System.out.println(JsonUtil.objectToJson(userList));
 	}
 }
