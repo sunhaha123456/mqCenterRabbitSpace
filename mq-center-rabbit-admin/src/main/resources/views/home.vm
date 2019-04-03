@@ -160,19 +160,19 @@
             //nav初始化
             var menuData = [{
                 "id": 5,
-                "menuName": "上传下载",
+                "menuName": "系统管理",
                 "iconCls": "icon-sys",
                 "checked": false,
                 "children": [{
                     "id": 6,
-                    "menuName": "上传下载",
+                    "menuName": "消息管理",
                     "iconCls": "icon-nav",
-                    "url": "user/uploadDemo/toUploadDemo",
+                    "url": "user/mqMsgManage/toMqMsgManage",
                     "checked": false
                 }]
-            }];
+            }]
             menuInit(menuData);
-            addTab("上传下载", urlHandleContext("user/uploadDemo/toUploadDemo"));
+            addTab("消息管理", urlHandleContext("user/mqMsgManage/toMqMsgManage"));
         });
     </script>
 </head>
