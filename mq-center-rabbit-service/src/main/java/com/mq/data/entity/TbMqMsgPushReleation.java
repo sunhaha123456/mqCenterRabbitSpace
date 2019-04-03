@@ -18,7 +18,7 @@ import javax.persistence.Table;
 public class TbMqMsgPushReleation extends BaseDataIdLong {
 
 	@Column(name = "mq_msg_id")
-	private Long mqMsgId;
+	private String mqMsgId;
 
 	// 推送状态
 	// 0：推送失败 1：推送成功
