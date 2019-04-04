@@ -122,35 +122,23 @@
                         hidden : true
                     },
                     {
+                        field : 'createDate',
+                        title : '推送请求创建时间',
+                        width : 100,
+                    },
+                    {
                         field : 'uname',
-                        title : '用户名',
+                        title : '推送请求方平台',
+                        width : 100,
+                    },
+                    {
+                        field : 'uname',
+                        title : '推送内容',
                         width : 100,
                     },
                     {
                         field : 'roleGroupName',
-                        title : '所属角色',
-                        width : 100,
-                    },
-                    {
-                        field : 'roleGroupId',
-                        width : 100,
-                        hidden : true
-                    },
-                    {
-                        field : 'userState',
-                        title : '状态',
-                        width : 100,
-                        formatter: function(value,row,index){
-                            if (value == 0){
-                                return "正常";
-                            } else {
-                                return "冻结";
-                            }
-                        }
-                    },
-                    {
-                        field : 'createDate',
-                        title : '创建日期',
+                        title : '推送状态',
                         width : 100,
                     }
                 ]]
@@ -190,14 +178,15 @@
 <table id="manager">
     <div id="manager_tool">
         <div style="margin-bottom:5px;">
-            <a href="#" class="easyui-linkbutton" iconCls="icon-add-green" plain="true" onclick="addUserShow()">新增</a>
-            <a href="#" class="easyui-linkbutton" iconCls="icon-edit-yellow" plain="true" onclick="distriUserAuthShow()">分配角色</a>
-            <a href="#" class="easyui-linkbutton" iconCls="icon-tip" plain="true" onclick="opertUserState(1)">冻结</a>
-            <a href="#" class="easyui-linkbutton" iconCls="icon-ok" plain="true" onclick="opertUserState(0)">启用</a>
-            <a href="#" class="easyui-linkbutton" iconCls="icon-cancel" plain="true" onclick="opertUserState(2)">注销</a>
+            <a href="#" class="easyui-linkbutton" iconCls="icon-edit-yellow" plain="true" onclick="addUserShow()">查看详情</a>
+            <a href="#" class="easyui-linkbutton" iconCls="icon-add-green" plain="true" onclick="addUserShow()">手动构建消息</a>
+            <a href="#" class="easyui-linkbutton" iconCls="icon-ok" plain="true" onclick="distriUserAuthShow()">手动推送消息</a>
         </div>
         <div style="padding:0 0 0 7px;color:#333;">
-            帐号用户名：<input type="text" class="textbox" id="unameSearch" style="width:110px" />
+            开始时间<input type="text" class="textbox" id="unameSearch" style="width:110px" />
+            结束时间<input type="text" class="textbox" id="unameSearch" style="width:110px" />
+            推送平台：<input type="text" class="textbox" id="unameSearch" style="width:110px" />
+            消息内容：<input type="text" class="textbox" id="unameSearch" style="width:110px" />
             <a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="searchUser()">查询</a>
         </div>
     </div>
