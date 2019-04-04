@@ -20,10 +20,36 @@
     request_push_interval_second, request_push_msg_content, request_push_platform, request_push_remark, 
     status, total_push_count
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select
-    <include refid="Base_Column_List" />
-    from tb_mq_msg
-    where id = #{id}
+  <select id="countByOption" resultType="java.lang.Long">
+    select count(1) from tb_mq_msg
+    where 1 = 1
+    <if test="requestPushPlatform != null">
+      and request_push_platform = #{requestPushPlatform}
+    </if>
+    <if test="requestPushMsgContent != null">
+      and request_push_msg_content = #{requestPushMsgContent}
+    </if>
+    <if test="startDate != null">
+      and #{startDate} &gt;= create_date
+    </if>
+    <if test="endDate != null">
+      and create_date &lt;= #{endDate}
+    </if>
+  </select>
+  <select id="selectByOption" resultMap="BaseResultMap">
+    select * from tb_mq_msg
+    where 1 = 1
+    <if test="requestPushPlatform != null">
+      and request_push_platform = #{requestPushPlatform}
+    </if>
+    <if test="requestPushMsgContent != null">
+      and request_push_msg_content = #{requestPushMsgContent}
+    </if>
+    <if test="startDate != null">
+      and #{startDate} &gt;= create_date
+    </if>
+    <if test="endDate != null">
+      and create_date &lt;= #{endDate}
+    </if>
   </select>
 </mapper>

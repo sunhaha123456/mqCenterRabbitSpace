@@ -1,21 +1,17 @@
 package com.mq.controler;
 
-import com.mq.common.repository.RedisRepositoryCustom;
-import com.mq.common.util.RedisKeyUtil;
-import com.mq.common.util.ValueHolder;
-import com.mq.data.entity.TbUser;
-import com.mq.data.to.request.UserLoginRequest;
-import com.mq.dbopt.repository.TbUserRepository;
-import com.mq.service.LoginService;
+import com.mq.common.data.base.PageList;
+import com.mq.data.entity.TbMqMsg;
+import com.mq.data.to.request.MqMsgSearchRequest;
+import com.mq.service.MqMsgManageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import java.util.Map;
-import java.util.Optional;
 
 /**
  * 功能：消息管理 controller
@@ -26,9 +22,16 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/user/mqMsgManage")
 public class MqMsgManageControler {
+    @Inject
+    private MqMsgManageService mqMsgManageService;
 
     @GetMapping(value = "/toMqMsgManage")
     public String toMqMsgManage() {
         return "menu/mqMsgManage";
+    }
+
+    @PostMapping(value= "/search")
+    public PageList<TbMqMsg> search(@RequestBody MqMsgSearchRequest param) throws Exception {
+        return mqMsgManageService.search(param);
     }
 }

@@ -1,7 +1,8 @@
-import com.alibaba.fastjson.JSON;
 import com.mq.common.util.JsonUtil;
 import com.mq.conf.Application;
+import com.mq.data.entity.TbMqMsg;
 import com.mq.data.entity.TbUser;
+import com.mq.dbopt.mapper.TbMqMsgMapper;
 import com.mq.dbopt.mapper.TbUserMapper;
 import com.mq.dbopt.repository.TbUserRepository;
 import org.junit.Test;
@@ -9,10 +10,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +20,8 @@ public class TbUserTest {
 
 	@Autowired
 	private TbUserMapper tbUserMapper;
+	@Autowired
+	private TbMqMsgMapper tbMqMsgMapper;
 	@Autowired
 	private TbUserRepository tbUserRepository;
 
@@ -45,4 +45,12 @@ public class TbUserTest {
 		List<TbUser> userList = tbUserRepository.listByUnameAndPwd("111", "222");
 		System.out.println(JsonUtil.objectToJson(userList));
 	}
+
+    @Test
+    public void testMqMsgMapper() throws Exception {
+        //long c = tbMqMsgMapper.countByOption(null, null, 1, null);
+        //System.out.println(c);
+        List<TbMqMsg> list = tbMqMsgMapper.selectByOption(null, null, 1, null);
+        System.out.println(JsonUtil.objectToJson(list));
+    }
 }
