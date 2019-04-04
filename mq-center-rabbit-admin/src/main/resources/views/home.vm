@@ -178,7 +178,7 @@
 </head>
 <body class="easyui-layout" style="overflow-y:hidden" scroll="no">
 <div id="north" region="north" split="true" border="false">
-	<div class="logo">盛行天下运营管理系统</div>
+	<div class="logo">消息队列管理系统</div>
 	<div class="logout">您好，<span id="unameHomeSpan"/>&nbsp;|&nbsp; <a href="#" id="loginOutHref">退出登录</a></div>
 </div>
 <div id="west" region="west" split="true" title="导航菜单" style="width:180px;padding:10px;background-color: #E9FFEB">

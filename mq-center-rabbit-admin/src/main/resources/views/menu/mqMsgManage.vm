@@ -10,7 +10,7 @@
     </script>
     <script th:src="@{/static/easyui/easy.common.js}"></script>
     <script th:src="@{/static/myFun.js}"></script>
-    <script type="text/javascript" th:inline="none">
+    <script th:inline="none">
         function addUserShow() {
             $('#manager_add').dialog('open');
             $('#unameAdd').focus();
