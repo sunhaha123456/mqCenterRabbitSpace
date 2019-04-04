@@ -11,90 +11,6 @@
     <script th:src="@{/static/easyui/easy.common.js}"></script>
     <script th:src="@{/static/myFun.js}"></script>
     <script th:inline="none">
-        function addUserShow() {
-            $('#manager_add').dialog('open');
-            $('#unameAdd').focus();
-        }
-        function opertUserState(state) {
-            var showMsg = '';
-            if (state == 0) {
-                showMsg = '您确定解冻该用户吗？';
-            } else if (state == 1) {
-                showMsg = '您确定冻结该用户吗？';
-            } else {
-                showMsg = '您确定注销该用户吗？';
-            }
-            var rows = $('#manager').datagrid('getSelections');
-            if (rows.length > 0) {
-                $.messager.confirm('确定操作', showMsg, function (flag) {
-                    if (flag) {
-                        var id = rows[0].id;
-                        $('#manager').datagrid('loading');
-                        var result = ajaxSynchGet("user/userManage/opert", {"id": id, "state": state});
-                        $('#manager').datagrid('loaded');
-                        alertInfo(result.msg);
-                        searchUser();
-                    }
-                });
-            } else {
-                alertWarn("请先选择记录！");
-            }
-        }
-        function distriUserAuthShow() {
-            var rows = $('#manager').datagrid('getSelections');
-            if (rows.length > 0) {
-                var id = rows[0].id;
-                var result = ajaxSynchGet("user/userManage/getDetail", {"id":id});
-                if (result.code == '200') {
-                    var uname = result.data.uname;
-                    var roleGroupId = result.data.roleGroupId;
-                    $('#unameDistriAuth').val(uname);
-                    $('#authDistriAuth').combobox('setValue', roleGroupId);
-                    $('#manager_distriAuth').dialog('open');
-                } else {
-                    alertWarn(result.msg);
-                }
-            } else {
-                alertWarn("请先选择记录！");
-            }
-        }
-        function addUserCommit() {
-            if ($('#manager_add').form('validate')) {
-                var unameAdd = $('#unameAdd').val();
-                var passwordAdd = $('#passwordAdd').val();
-                var authAdd = $('#authAdd').combobox('getValue');
-                if (authAdd == '请选择') {
-                    alertWarn('请选择用户角色！');
-                } else {
-                    var result = ajaxSynchPostJson("user/userManage/add", {"uname":unameAdd, "upwd":passwordAdd, "roleGroupId":authAdd})
-                    if (result.code == '200') {
-                        alertSuccess();
-                        $('#manager_add').dialog('close');
-                        searchUser();
-                    } else {
-                        alertWarn(result.msg);
-                    }
-                }
-            }
-        }
-        function distriUserAuthCommit() {
-            var rows = $('#manager').datagrid('getSelections');
-            if (rows.length > 0) {
-                var id = rows[0].id;
-                var authDistriAuth = $('#authDistriAuth').combobox('getValue');
-                var result = ajaxSynchGet("user/userManage/updateRole", {"id":id, "roleId":authDistriAuth});
-                if (result.code == '200') {
-                    alertSuccess();
-                    $('#manager_distriAuth').dialog('close');
-                    searchUser();
-                } else {
-                    alertWarn(result.msg);
-                }
-            } else {
-                alertWarn('操作失败！');
-            }
-        }
-
         function searchUser() {
             var result = ajaxSynchPostJson("user/userManage/search", {"uname": $('#unameSearch').val(), "page":1, "rows":10});
             if (result.code == '200') {
@@ -189,62 +105,11 @@
             结束时间：<input type="text" class="easyui-datetimebox" id="endDate" style="width:165px" />&nbsp;&nbsp;
             推送平台：<select class="easyui-combobox" id="requestPushPlatform" style="width:125px;" data-options="valueField:'key',textField:'value'">
                         <option value="请选择" selected="true" />
-                      </select>&nbsp;&nbsp;
-            消息内容：<input type="text" class="textbox" id="requestPushMsgContent" style="width:200px" />&nbsp;&nbsp;
+                      </select>&nbsp;&nbsp;<br />
+            消息内容：<input type="text" class="textbox" id="requestPushMsgContent" style="width:595px" />&nbsp;&nbsp;
             <a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="searchUser()">查询</a>
         </div>
     </div>
 </table>
-
-<form id="manager_add" class="easyui-dialog" style="margin:0;padding:5px 0 0 25px;color:#333;"
-      data-options="top:150,width:320,title:'新增管理',modal:true,closed:true,cache:false,iconCls:'icon-user-add',
-       onClose:function () {
-            $('#manager_add').form('reset');
-       },
-		buttons:[{
-					text : '提交',
-					iconCls : 'icon-add-green',
-					handler : function () {
-                    addUserCommit();
-					}
-				},{
-					text:'关闭',
-					iconCls : 'icon-redo',
-					handler:function(){
-                    $('#manager_add').dialog('close');
-					}
-				}]">
-    <p>用户名：<input class="easyui-validatebox" data-options="required:true,validType:'length[1,100]',missingMessage:'请输入用户名',invalidMessage:'用户名长度至少为1位'," type="text" id="unameAdd" style="width:200px;" /></p>
-    <p>密&nbsp;&nbsp;&nbsp;码：<input class="easyui-validatebox" data-options="required:true,validType:'length[1,100]',missingMessage:'请输入密码',invalidMessage:'密码长度至少为1位'," type="text" id="passwordAdd" style="width:200px;" /></p>
-    <p>角&nbsp;&nbsp;&nbsp;色：
-        <select class="easyui-combobox" id="authAdd" style="width:100px;" data-options="valueField:'id',textField:'roleName'">
-            <option value="请选择" selected="true" />
-        </select>
-    </p>
-</form>
-
-<form id="manager_distriAuth" class="easyui-dialog" style="margin:0;padding:5px 0 0 25px;color:#333;"
-      data-options="top:150,width:320,title:'编辑管理',modal:true,closed:true,cache:false,iconCls:'icon-user-add',
-       onClose:function () {
-            $('#manager_distriAuth').form('reset');
-       },
-		buttons:[{
-					text : '提交',
-					iconCls : 'icon-add-green',
-					handler : function () {
-                    distriUserAuthCommit();
-					}
-				},{
-					text:'关闭',
-					iconCls : 'icon-redo',
-					handler:function(){
-                    $('#manager_distriAuth').dialog('close');
-					}
-				}]">
-    <p>用户名：<input class="easyui-validatebox" type="text" id="unameDistriAuth" style="width:200px;" disabled="disabled" /></p>
-    <p>角&nbsp;&nbsp;&nbsp;色：
-        <select class="easyui-combobox" id="authDistriAuth" style="width:100px;" data-options="valueField:'id',textField:'roleName'" />
-    </p>
-</form>
 </body>
 </html>
