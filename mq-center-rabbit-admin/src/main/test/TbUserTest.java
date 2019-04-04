@@ -2,6 +2,7 @@ import com.mq.common.util.JsonUtil;
 import com.mq.conf.Application;
 import com.mq.data.entity.TbMqMsg;
 import com.mq.data.entity.TbUser;
+import com.mq.data.to.request.MqMsgSearchRequest;
 import com.mq.dbopt.mapper.TbMqMsgMapper;
 import com.mq.dbopt.mapper.TbUserMapper;
 import com.mq.dbopt.repository.TbUserRepository;
@@ -48,9 +49,9 @@ public class TbUserTest {
 
     @Test
     public void testMqMsgMapper() throws Exception {
-        //long c = tbMqMsgMapper.countByOption(null, null, 1, null);
-        //System.out.println(c);
-        List<TbMqMsg> list = tbMqMsgMapper.selectByOption(null, null, 1, null);
-        System.out.println(JsonUtil.objectToJson(list));
+        MqMsgSearchRequest param = new MqMsgSearchRequest(null, null, "1", null);
+        param.setPage(2);
+        long c = tbMqMsgMapper.countByOption(param);
+        System.out.println(c);
     }
 }

@@ -23,33 +23,34 @@
   <select id="countByOption" resultType="java.lang.Long">
     select count(1) from tb_mq_msg
     where 1 = 1
-    <if test="requestPushPlatform != null">
+    <if test="requestPushPlatform != null and requestPushPlatform != '' and requestPushPlatform != '请选择'">
       and request_push_platform = #{requestPushPlatform}
     </if>
-    <if test="requestPushMsgContent != null">
+    <if test="requestPushMsgContent != null and requestPushMsgContent != ''">
       and request_push_msg_content = #{requestPushMsgContent}
     </if>
-    <if test="startDate != null">
+    <if test="startDate != null and startDate != ''">
       and #{startDate} &gt;= create_date
     </if>
-    <if test="endDate != null">
+    <if test="endDate != null and endDate != ''">
       and create_date &lt;= #{endDate}
     </if>
   </select>
   <select id="selectByOption" resultMap="BaseResultMap">
     select * from tb_mq_msg
     where 1 = 1
-    <if test="requestPushPlatform != null">
+    <if test="requestPushPlatform != null and requestPushPlatform != '' and requestPushPlatform != '请选择'">
       and request_push_platform = #{requestPushPlatform}
     </if>
-    <if test="requestPushMsgContent != null">
+    <if test="requestPushMsgContent != null and requestPushMsgContent != ''">
       and request_push_msg_content = #{requestPushMsgContent}
     </if>
-    <if test="startDate != null">
+    <if test="startDate != null and startDate != ''">
       and #{startDate} &gt;= create_date
     </if>
-    <if test="endDate != null">
+    <if test="endDate != null and endDate != ''">
       and create_date &lt;= #{endDate}
     </if>
+    order by id asc limit #{start}, #{rows}
   </select>
 </mapper>

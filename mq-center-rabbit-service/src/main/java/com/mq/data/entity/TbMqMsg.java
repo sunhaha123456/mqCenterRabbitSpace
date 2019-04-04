@@ -28,6 +28,9 @@ public class TbMqMsg extends BaseDataIdLong {
 	@Column(name = "request_push_platform", columnDefinition = "INT(1) COMMENT '请求推送方平台'")
 	private Integer requestPushPlatform;
 
+	@Transient
+	private String requestPushPlatformStr;
+
 	// 主动构建消息的管理员id
 	// 备注：当请求推送方平台是 0，表示 管理人员主动新建消息时，使用
 	@Column(name = "active_build_mq_msg_user_id", columnDefinition = "INT(11) COMMENT '主动构建消息的管理员id'")

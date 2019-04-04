@@ -12,7 +12,14 @@
     <script th:src="@{/static/myFun.js}"></script>
     <script th:inline="none">
         function searchUser() {
-            var result = ajaxSynchPostJson("user/userManage/search", {"uname": $('#unameSearch').val(), "page":1, "rows":10});
+            var data = {
+                "startDate": $('#startDate').datetimebox('getValue'),
+                "endDate": $('#endDate').datetimebox('getValue'),
+                "requestPushPlatform": $('#requestPushPlatform').combobox('getValue'),
+                "requestPushMsgContent": $('#requestPushMsgContent').val(),
+                "page":pageNumber, "rows":pageSize
+            };
+            var result = ajaxSynchPostJson("user/mqMsgManage/search", data);
             if (result.code == '200') {
                 dataGridPageInit();
                 $('#manager').datagrid('loadData', result.data);
@@ -43,19 +50,30 @@
                         width : 100,
                     },
                     {
-                        field : 'uname',
+                        field : 'requestPushPlatformStr',
                         title : '推送请求方平台',
                         width : 100,
                     },
                     {
-                        field : 'uname',
+                        field : 'requestPushMsgContent',
                         title : '推送内容',
                         width : 100,
                     },
                     {
-                        field : 'roleGroupName',
+                        field : 'status',
                         title : '推送状态',
                         width : 100,
+                        formatter: function(value,row,index){
+                            if (value == 0){
+                                return "未推送";
+                            } else if (value == 1){
+                                return "推送失败";
+                            } else if (value == 2){
+                                return "推送成功";
+                            } else {
+                                return "未知";
+                            }
+                        }
                     }
                 ]]
             });
@@ -67,7 +85,14 @@
                 pageSize : 10,
                 pageList : [10, 20, 30, 40, 50],
                 onSelectPage:function(pageNumber, pageSize){
-                    var result = ajaxSynchPostJson("user/userManage/search", {"uname": $('#uname').val(), "page":pageNumber, "rows":pageSize});
+                    var data = {
+                        "startDate": $('#startDate').datetimebox('getValue'),
+                        "endDate": $('#endDate').datetimebox('getValue'),
+                        "requestPushPlatform": $('#requestPushPlatform').combobox('getValue'),
+                        "requestPushMsgContent": $('#requestPushMsgContent').val(),
+                        "page":pageNumber, "rows":pageSize
+                    };
+                    var result = ajaxSynchPostJson("user/mqMsgManage/search", data);
                     if (result.code == '200') {
                         $('#manager').datagrid('loadData', result.data);
                     }
