@@ -160,11 +160,13 @@
         }
 
         function webPageInit() {
-            var result = ajaxSynchGet("user/roleManage/list", {"roleState": 0});
-            if (result.code == '200') {
-                $('#authAdd').combobox('loadData',result.data);
-                $('#authDistriAuth').combobox('loadData',result.data);
-            }
+            var requestPushPlatformData = [
+                {"key": 0, "value": "人工手动构建消息"},
+                {"key": 1, "value": "xxx平台"},
+                {"key": 2, "value": "yyy平台"},
+                {"key": 3, "value": "zzz平台"}
+            ];
+            $('#requestPushPlatform').combobox('loadData', requestPushPlatformData);
         }
 
         $(function () {
@@ -183,10 +185,12 @@
             <a href="#" class="easyui-linkbutton" iconCls="icon-ok" plain="true" onclick="distriUserAuthShow()">手动推送消息</a>
         </div>
         <div style="padding:0 0 0 7px;color:#333;">
-            开始时间<input type="text" class="textbox" id="unameSearch" style="width:110px" />
-            结束时间<input type="text" class="textbox" id="unameSearch" style="width:110px" />
-            推送平台：<input type="text" class="textbox" id="unameSearch" style="width:110px" />
-            消息内容：<input type="text" class="textbox" id="unameSearch" style="width:110px" />
+            开始时间：<input type="text" class="easyui-datetimebox" id="startDate" style="width:165px" />&nbsp;&nbsp;
+            结束时间：<input type="text" class="easyui-datetimebox" id="endDate" style="width:165px" />&nbsp;&nbsp;
+            推送平台：<select class="easyui-combobox" id="requestPushPlatform" style="width:125px;" data-options="valueField:'key',textField:'value'">
+                        <option value="请选择" selected="true" />
+                      </select>&nbsp;&nbsp;
+            消息内容：<input type="text" class="textbox" id="requestPushMsgContent" style="width:200px" />&nbsp;&nbsp;
             <a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="searchUser()">查询</a>
         </div>
     </div>
