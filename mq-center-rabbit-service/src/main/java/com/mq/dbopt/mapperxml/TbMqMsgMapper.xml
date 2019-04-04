@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mq.dbopt.mapper.TbMqMsgMapper" >
+  <resultMap id="BaseResultMap" type="com.mq.data.entity.TbMqMsg" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="last_modified" property="lastModified" jdbcType="TIMESTAMP" />
+    <result column="active_build_mq_msg_user_id" property="activeBuildMqMsgUserId" jdbcType="INTEGER" />
+    <result column="deliver_date" property="deliverDate" jdbcType="TIMESTAMP" />
+    <result column="request_push_dest_addr" property="requestPushDestAddr" jdbcType="VARCHAR" />
+    <result column="request_push_interval_second" property="requestPushIntervalSecond" jdbcType="VARCHAR" />
+    <result column="request_push_msg_content" property="requestPushMsgContent" jdbcType="VARCHAR" />
+    <result column="request_push_platform" property="requestPushPlatform" jdbcType="INTEGER" />
+    <result column="request_push_remark" property="requestPushRemark" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="total_push_count" property="totalPushCount" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, create_date, last_modified, active_build_mq_msg_user_id, deliver_date, request_push_dest_addr, 
+    request_push_interval_second, request_push_msg_content, request_push_platform, request_push_remark, 
+    status, total_push_count
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_mq_msg
+    where id = #{id}
+  </select>
+</mapper>

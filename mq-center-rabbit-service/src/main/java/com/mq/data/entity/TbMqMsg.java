@@ -24,7 +24,7 @@ public class TbMqMsg extends BaseDataIdLong {
 	private String requestPushMsgContent;
 
 	// 请求推送方平台
-	// 0：管理人员手动构建消息 1：xxx平台 2：yyy平台 3：zzz平台
+	// 0：（管理人员）手动构建消息 1：xxx平台 2：yyy平台 3：zzz平台
 	@Column(name = "request_push_platform", columnDefinition = "INT(1) COMMENT '请求推送方平台'")
 	private Integer requestPushPlatform;
 
