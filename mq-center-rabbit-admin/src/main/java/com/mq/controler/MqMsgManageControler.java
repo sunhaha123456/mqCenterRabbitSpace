@@ -6,10 +6,7 @@ import com.mq.data.to.request.MqMsgSearchRequest;
 import com.mq.service.MqMsgManageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 
@@ -30,6 +27,7 @@ public class MqMsgManageControler {
         return "menu/mqMsgManage";
     }
 
+    @ResponseBody
     @PostMapping(value= "/search")
     public PageList<TbMqMsg> search(@RequestBody MqMsgSearchRequest param) throws Exception {
         return mqMsgManageService.search(param);

@@ -11,13 +11,13 @@
     <script th:src="@{/static/easyui/easy.common.js}"></script>
     <script th:src="@{/static/myFun.js}"></script>
     <script th:inline="none">
-        function searchUser() {
+        function searchMqMsg() {
             var data = {
                 "startDate": $('#startDate').datetimebox('getValue'),
                 "endDate": $('#endDate').datetimebox('getValue'),
                 "requestPushPlatform": $('#requestPushPlatform').combobox('getValue'),
                 "requestPushMsgContent": $('#requestPushMsgContent').val(),
-                "page":pageNumber, "rows":pageSize
+                "page":1, "rows":10
             };
             var result = ajaxSynchPostJson("user/mqMsgManage/search", data);
             if (result.code == '200') {
@@ -111,9 +111,9 @@
         }
 
         $(function () {
-            dataGridInit();
-            searchUser();
             webPageInit();
+            dataGridInit();
+            searchMqMsg();
         });
     </script>
 </head>
@@ -132,7 +132,7 @@
                         <option value="请选择" selected="true" />
                       </select>&nbsp;&nbsp;<br />
             消息内容：<input type="text" class="textbox" id="requestPushMsgContent" style="width:595px" />&nbsp;&nbsp;
-            <a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="searchUser()">查询</a>
+            <a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="searchMqMsg()">查询</a>
         </div>
     </div>
 </table>

@@ -49,9 +49,10 @@ public class TbUserTest {
 
     @Test
     public void testMqMsgMapper() throws Exception {
-        MqMsgSearchRequest param = new MqMsgSearchRequest(null, null, "1", null);
-        param.setPage(2);
-        long c = tbMqMsgMapper.countByOption(param);
-        System.out.println(c);
+        MqMsgSearchRequest param = new MqMsgSearchRequest();
+        param.setStart(10L);
+        param.setRows(10);
+        List<TbMqMsg> list = tbMqMsgMapper.selectByOption(param);
+        System.out.println(1);
     }
 }
