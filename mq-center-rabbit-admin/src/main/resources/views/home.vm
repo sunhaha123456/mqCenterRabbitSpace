@@ -99,7 +99,7 @@
         function createFrame(url){
             if (isNotEmpty(url) && url.indexOf('?') != -1) {
                 var tar = url.substring(contextPath.length, url.indexOf('?'));
-                var s = '<iframe name="' + tar + '" scrolling="auto" frameborder="0" src="'+url+'" style="width:100%;height:100%;"></iframe>';
+                var s = '<iframe name="' + tar + '" scrolling="auto" frameborder="0" src="'+url+'" style="width:99.9%;height:99.5%;"></iframe>';
                 return s;
             }
             return "";
