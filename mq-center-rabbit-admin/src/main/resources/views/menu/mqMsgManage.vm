@@ -228,8 +228,10 @@
 </form>
 <div id="manager_msgDetailWindow" class="easyui-window" style="background-color:#F4F4F4;" data-options="top:150,width:1100,title:'查看',modal:true,closed:true,iconCls:'icon-user-add',cache:false,collapsible:false,minimizable:false,maximizable:false">
     <div id="manager_msgDetailInfoPanel">
-        <p><span>xxx：你好啊</span><span>yyy：我好啊</span></p>
-        <p><span>zzz：哈哈哈哈</span><span>qqq：嘻嘻嘻爱</span></p>
+        <p>推送请求创建时间：<span>2019-04-06 13:08:33</span>&nbsp;&nbsp;&nbsp;&nbsp;推送请求方平台：<span>xxx平台</span>&nbsp;&nbsp;&nbsp;&nbsp;推送方备注：<span>你是谁啊啊啊哈哈哈</span></p>
+        <p>推送间隔时间(秒)：<span>10</span>&nbsp;&nbsp;&nbsp;&nbsp;推送状态：<span>推送失败</span>&nbsp;&nbsp;&nbsp;&nbsp;送达时间：<span>2019-04-06 13:08:33</span></p>
+        <p>累计推送次数：<span>3</span>&nbsp;&nbsp;&nbsp;&nbsp;主动构建消息的管理员：<span>xxx</span></p>
+        <p>推送内容：<span>受到了法律来开始掉粉了监考老师的课分类可适当放宽老两口的方式来可适当放宽料理师傅打开了开发商的落空发送大量亏损幅度来看</span></p>
     </div>
     <table id="manager_msgDetailPushRecordGrid" class="easyui-datagrid" data-options="fit:false,fitColumns:true,striped:true,rownumbers:true,border:false,singleSelect:true,pagination:false">
         <thead>
