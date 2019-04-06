@@ -62,13 +62,13 @@
                 var result = ajaxSynchGet("user/mqMsgManage/queryDetail", {"id": id});
                 if (result.code == '200') {
                     var data = result.data;
-
-
-
-
+                    $('#manager_msgDetailPushRecordGrid').datagrid('loadData', result.data);
+                    $('#manager_msgDetailWindow').dialog('open');
                 } else {
                     alertWarn(result.msg);
                 }
+            } else {
+                alertWarn('未选择记录！');
             }
         }
         function searchMqMsg() {
@@ -220,5 +220,31 @@
     <p>目的地址：<input class="easyui-validatebox" data-options="required:true,validType:'length[1,250]',missingMessage:'请输入目的地址',invalidMessage:'目的地址长度至少为1位'," type="text" id="mqMsgDestAddrAdd" style="width:450px;" /></p>
     <p>间隔时间(秒)：<input class="easyui-validatebox" data-options="required:true,validType:'length[1,10]',missingMessage:'请输入间隔时间（0表示立即送达）',invalidMessage:'间隔时间长度至少为1位'," type="text" id="mqMsgIntervalSecondAdd" style="width:450px;" /></p>
 </form>
+<div id="manager_msgDetailWindow" class="easyui-window" style="background-color:#F4F4F4;" data-options="top:150,width:1100,title:'查看',modal:true,closed:true,iconCls:'icon-user-add',cache:false,collapsible:false,minimizable:false,maximizable:false">
+    <div id="manager_msgDetailInfoPanel">
+        <p><span>xxx：你好啊</span><span>yyy：我好啊</span></p>
+        <p><span>zzz：哈哈哈哈</span><span>qqq：嘻嘻嘻爱</span></p>
+    </div>
+    <table id="manager_msgDetailPushRecordGrid" class="easyui-datagrid" data-options="fit:false,fitColumns:true,striped:true,rownumbers:true,border:false,singleSelect:true,pagination:false">
+        <thead>
+        <tr>
+            <th data-options="field:'id',hidden:true" />
+            <th data-options="field:'menuName',width:80">菜单名</th>
+            <th data-options="field:'iconCls',width:50">菜单图标</th>
+            <th data-options="field:'url',width:100">跳转链接</th>
+            <th data-options="field:'menuState',width:50,
+                    formatter: function(value,row,index){
+                        if (value == 0){
+                            return '正常';
+                        } else {
+                            return '冻结';
+                        }
+                    }">状态</th>
+            <th data-options="field:'sort',width:50">排序</th>
+            <th data-options="field:'createDate',width:100">创建时间</th>
+        </tr>
+        </thead>
+    </table>
+</div>
 </body>
 </html>

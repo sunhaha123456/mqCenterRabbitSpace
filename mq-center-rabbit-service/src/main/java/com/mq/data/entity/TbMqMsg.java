@@ -37,11 +37,11 @@ public class TbMqMsg extends BaseDataIdLong {
 	private Long activeBuildMqMsgUserId;
 
 	// 请求推送方备注
-	@Column(name = "request_push_remark", columnDefinition = "varchar(255) DEFAULT 0 COMMENT '请求推送方备注'")
+	@Column(name = "request_push_remark", columnDefinition = "varchar(255) COMMENT '请求推送方备注'")
 	private String requestPushRemark;
 
 	// 请求送达地址
-	@Column(name = "request_push_dest_addr", columnDefinition = "varchar(255) DEFAULT 0 COMMENT '请求送达地址'")
+	@Column(name = "request_push_dest_addr", columnDefinition = "varchar(255) COMMENT '请求送达地址'")
 	private String requestPushDestAddr;
 
 	// 请求间隔多少秒后送达
