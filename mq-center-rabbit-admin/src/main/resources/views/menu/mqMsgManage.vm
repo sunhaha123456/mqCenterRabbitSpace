@@ -55,6 +55,22 @@
                 }
             });
         }
+        function mqMsgDetailShow() {
+            var rows = $('#manager').datagrid('getSelections');
+            if (rows.length > 0) {
+                var id = rows[0].id;
+                var result = ajaxSynchGet("user/mqMsgManage/queryDetail", {"id": id});
+                if (result.code == '200') {
+                    var data = result.data;
+
+
+
+
+                } else {
+                    alertWarn(result.msg);
+                }
+            }
+        }
         function searchMqMsg() {
             var data = {
                 "startDate": $('#startDate').datetimebox('getValue'),
@@ -167,7 +183,7 @@
         <div style="margin-bottom:5px;">
             <a href="#" class="easyui-linkbutton" iconCls="icon-add-green" plain="true" onclick="addMqMsgShow()">手动构建消息</a>
             <a href="#" class="easyui-linkbutton" iconCls="icon-ok" plain="true" onclick="handPushMqMsg()">手动推送消息</a>
-            <a href="#" class="easyui-linkbutton" iconCls="icon-edit-yellow" plain="true" onclick="addUserShow()">查看详情</a>
+            <a href="#" class="easyui-linkbutton" iconCls="icon-edit-yellow" plain="true" onclick="mqMsgDetailShow()">查看详情</a>
         </div>
         <div style="padding:0 0 0 7px;color:#333;">
             开始时间：<input type="text" class="easyui-datetimebox" id="startDate" style="width:165px" />&nbsp;&nbsp;
