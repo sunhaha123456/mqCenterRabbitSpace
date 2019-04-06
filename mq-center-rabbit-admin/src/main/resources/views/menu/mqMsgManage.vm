@@ -62,6 +62,9 @@
                 var result = ajaxSynchGet("user/mqMsgManage/queryDetail", {"id": id});
                 if (result.code == '200') {
                     var data = result.data;
+
+
+
                     $('#manager_msgDetailPushRecordGrid').datagrid('loadData', result.data);
                     $('#manager_msgDetailWindow').dialog('open');
                 } else {
@@ -228,28 +231,25 @@
 </form>
 <div id="manager_msgDetailWindow" class="easyui-window" style="background-color:#F4F4F4;" data-options="top:150,width:1100,title:'查看',modal:true,closed:true,iconCls:'icon-user-add',cache:false,collapsible:false,minimizable:false,maximizable:false">
     <div id="manager_msgDetailInfoPanel">
-        <p>推送请求创建时间：<span>2019-04-06 13:08:33</span>&nbsp;&nbsp;&nbsp;&nbsp;推送请求方平台：<span>xxx平台</span>&nbsp;&nbsp;&nbsp;&nbsp;推送方备注：<span>你是谁啊啊啊哈哈哈</span></p>
-        <p>推送间隔时间(秒)：<span>10</span>&nbsp;&nbsp;&nbsp;&nbsp;推送状态：<span>推送失败</span>&nbsp;&nbsp;&nbsp;&nbsp;送达时间：<span>2019-04-06 13:08:33</span></p>
-        <p>累计推送次数：<span>3</span>&nbsp;&nbsp;&nbsp;&nbsp;主动构建消息的管理员：<span>xxx</span></p>
-        <p>推送内容：<span>受到了法律来开始掉粉了监考老师的课分类可适当放宽老两口的方式来可适当放宽料理师傅打开了开发商的落空发送大量亏损幅度来看</span></p>
+        <p>推送请求创建时间：<span id="msgDetailShowCreateDate" ></span>&nbsp;&nbsp;&nbsp;&nbsp;推送请求方平台：<span id="msgDetailShowPushPlatform"></span>&nbsp;&nbsp;&nbsp;&nbsp;推送方备注：<span id="msgDetailShowPushRemark"></span></p>
+        <p>推送间隔时间(秒)：<span id="msgDetailShowPushIntervalSecond"></span>&nbsp;&nbsp;&nbsp;&nbsp;推送状态：<span id="msgDetailShowPushStatus"></span>&nbsp;&nbsp;&nbsp;&nbsp;累计推送次数：<span id="msgDetailShowPushTotalCount"></span>&nbsp;&nbsp;&nbsp;&nbsp;</p>
+        <p>推送内容：<span id="msgDetailShowPushContent"></span></p>
     </div>
     <table id="manager_msgDetailPushRecordGrid" class="easyui-datagrid" data-options="fit:false,fitColumns:true,striped:true,rownumbers:true,border:false,singleSelect:true,pagination:false">
         <thead>
         <tr>
-            <th data-options="field:'id',hidden:true" />
-            <th data-options="field:'menuName',width:80">菜单名</th>
-            <th data-options="field:'iconCls',width:50">菜单图标</th>
-            <th data-options="field:'url',width:100">跳转链接</th>
-            <th data-options="field:'menuState',width:50,
+            <th data-options="field:'createDate',width:80">推送时间</th>
+            <th data-options="field:'pushTypeStr',width:50">推送类别</th>
+            <th data-options="field:'status',width:50,
                     formatter: function(value,row,index){
                         if (value == 0){
-                            return '正常';
+                            return '推送失败';
+                        } else if (value == 1) {
+                            return '推送成功';
                         } else {
-                            return '冻结';
+                            return '未知';
                         }
                     }">状态</th>
-            <th data-options="field:'sort',width:50">排序</th>
-            <th data-options="field:'createDate',width:100">创建时间</th>
         </tr>
         </thead>
     </table>

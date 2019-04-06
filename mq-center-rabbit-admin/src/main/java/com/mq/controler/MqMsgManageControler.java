@@ -32,4 +32,10 @@ public class MqMsgManageControler {
     public PageList<TbMqMsg> search(@RequestBody MqMsgSearchRequest param) throws Exception {
         return mqMsgManageService.search(param);
     }
+
+    @ResponseBody
+    @GetMapping(value= "/queryDetail")
+    public TbMqMsg queryDetail(@RequestParam Long id) throws Exception {
+        return mqMsgManageService.queryDetail(id);
+    }
 }

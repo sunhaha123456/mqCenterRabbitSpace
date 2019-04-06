@@ -11,4 +11,5 @@ import com.mq.data.to.request.MqMsgSearchRequest;
  */
 public interface MqMsgManageService {
     PageList<TbMqMsg> search(MqMsgSearchRequest param) throws Exception;
+    TbMqMsg queryDetail(Long id);
 }

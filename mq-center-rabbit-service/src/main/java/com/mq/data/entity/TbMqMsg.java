@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 功能：消息表
@@ -53,6 +54,10 @@ public class TbMqMsg extends BaseDataIdLong {
 	@Column(name = "status", columnDefinition = "INT(1) DEFAULT 0 COMMENT '推送状态'")
 	private Integer status;
 
+	// 比如：2019-04-10 12:12:12，推送成功 或 推送失败
+	@Transient
+	private String statusStr;
+
 	// 送达时间
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -63,4 +68,7 @@ public class TbMqMsg extends BaseDataIdLong {
 	// 累计推送次数
 	@Column(name = "total_push_count", columnDefinition = "INT(11) DEFAULT 0 COMMENT '累计推送次数'")
 	private Integer totalPushCount;
+
+	@Transient
+	private List<TbMqMsgPushReleation> pushRecordList;
 }

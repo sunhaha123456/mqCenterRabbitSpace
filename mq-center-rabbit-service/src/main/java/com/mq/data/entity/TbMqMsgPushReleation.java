@@ -6,6 +6,7 @@ import lombok.Data;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * 功能：消息表推送记录表
@@ -29,6 +30,10 @@ public class TbMqMsgPushReleation extends BaseDataIdLong {
 	// 0：系统进行推送 1：管理员主动推送
 	@Column(name = "push_type", columnDefinition = "INT(1) DEFAULT 0 COMMENT '推送状态'")
 	private Integer pushType;
+
+	// 推送类别字符串，比如：系统推送 或 管理员：xxx，主动推送
+	@Transient
+	private Integer pushTypeStr;
 
 	// 主动推送消息的管理员id
 	// 备注：当推送类别是 1，表示 管理员主动推送时，使用
