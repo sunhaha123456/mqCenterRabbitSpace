@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mq.dbopt.mapper.TbMqMsgPushReleationMapper" >
+  <resultMap id="BaseResultMap" type="com.mq.data.entity.TbMqMsgPushReleation" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="last_modified" property="lastModified" jdbcType="TIMESTAMP" />
+    <result column="active_push_mq_msg_user_id" property="activePushMqMsgUserId" jdbcType="INTEGER" />
+    <result column="mq_msg_id" property="mqMsgId" jdbcType="BIGINT" />
+    <result column="push_type" property="pushType" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, create_date, last_modified, active_push_mq_msg_user_id, mq_msg_id, push_type, status
+  </sql>
+  <select id="listByMqMsgId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_mq_msg_push_releation
+    where id = #{id}
+  </select>
+</mapper>
