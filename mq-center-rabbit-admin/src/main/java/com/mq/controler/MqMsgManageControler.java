@@ -40,8 +40,14 @@ public class MqMsgManageControler {
     }
 
     @ResponseBody
-    @GetMapping(value= "/handBuildMqMsg")
+    @PostMapping(value= "/handBuildMqMsg")
     public void handBuildMqMsg(@RequestBody TbMqMsg mqMsg) throws Exception {
         mqMsgManageService.handBuildMqMsg(mqMsg);
+    }
+
+    @ResponseBody
+    @GetMapping(value= "/handPushMqMsg")
+    public void handPushMqMsg(@RequestParam Long id) throws Exception {
+        mqMsgManageService.handPushMqMsg(id);
     }
 }

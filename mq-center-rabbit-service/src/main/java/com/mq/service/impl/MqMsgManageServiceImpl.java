@@ -97,4 +97,20 @@ public class MqMsgManageServiceImpl implements MqMsgManageService {
         mqMsg.setTotalPushCount(0);
         tbMqMsgRepository.save(mqMsg);
     }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void handPushMqMsg(Long id) {
+        Optional<TbMqMsg> tbMqMsgOptional = tbMqMsgRepository.findById(id);
+        if (!tbMqMsgOptional.isPresent()) {
+            throw new BusinessException(ResponseResultCode.PARAM_ERROR);
+        }
+        TbMqMsg res = tbMqMsgOptional.get();
+        if (res.getStatus() == 1 && res.getTotalPushCount() >= 3) {
+            // 使用 http请求目标地址
+
+        } else {
+            throw new BusinessException("不符合手动推送条件！");
+        }
+    }
 }
