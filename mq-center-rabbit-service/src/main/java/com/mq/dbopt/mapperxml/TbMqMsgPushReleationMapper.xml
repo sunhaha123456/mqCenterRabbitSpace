@@ -9,14 +9,15 @@
     <result column="mq_msg_id" property="mqMsgId" jdbcType="BIGINT" />
     <result column="push_type" property="pushType" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="active_push_mq_msg_user_name" property="activePushMqMsgUserName" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, create_date, last_modified, active_push_mq_msg_user_id, mq_msg_id, push_type, status
   </sql>
   <select id="listByMqMsgId" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select
-    <include refid="Base_Column_List" />
-    from tb_mq_msg_push_releation
-    where id = #{id}
+      a.id, a.create_date, a.last_modified, a.active_push_mq_msg_user_id, a.mq_msg_id, a.push_type, a.status, b.uname active_push_mq_msg_user_name
+    from tb_mq_msg_push_releation a left join tb_user b on a.active_push_mq_msg_user_id = b.id
+    where a.mq_msg_id = #{mqMsgId}
   </select>
 </mapper>

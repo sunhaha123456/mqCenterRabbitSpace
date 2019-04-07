@@ -5,5 +5,5 @@ import com.mq.data.entity.TbMqMsgPushReleation;
 import java.util.List;
 
 public interface TbMqMsgPushReleationMapper {
-    List<TbMqMsgPushReleation> listByMqMsgId(Long id);
+    List<TbMqMsgPushReleation> listByMqMsgId(Long mqMsgId);
 }

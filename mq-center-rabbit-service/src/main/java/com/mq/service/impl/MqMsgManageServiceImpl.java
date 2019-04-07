@@ -9,11 +9,11 @@ import com.mq.data.entity.TbMqMsgPushReleation;
 import com.mq.data.entity.TbUser;
 import com.mq.data.to.request.MqMsgSearchRequest;
 import com.mq.dbopt.mapper.TbMqMsgMapper;
+import com.mq.dbopt.mapper.TbMqMsgPushReleationMapper;
 import com.mq.dbopt.repository.TbMqMsgRepository;
 import com.mq.dbopt.repository.TbUserRepository;
 import com.mq.service.MqMsgManageService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.builder.ParameterExpression;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -31,6 +31,8 @@ public class MqMsgManageServiceImpl implements MqMsgManageService {
     private TbMqMsgRepository tbMqMsgRepository;
     @Inject
     private TbUserRepository tbUserRepository;
+    @Inject
+    private TbMqMsgPushReleationMapper tbMqMsgPushReleationMapper;
 
     @Override
     public PageList<TbMqMsg> search(MqMsgSearchRequest param) throws Exception {
@@ -45,7 +47,7 @@ public class MqMsgManageServiceImpl implements MqMsgManageService {
 
     @Override
     public TbMqMsg queryDetail(Long id) {
-        Optional<TbMqMsg> tbMqMsgOptional = tbMqMsgRepository.findById(1L);
+        Optional<TbMqMsg> tbMqMsgOptional = tbMqMsgRepository.findById(id);
         if (!tbMqMsgOptional.isPresent()) {
             throw new BusinessException(ResponseResultCode.PARAM_ERROR);
         }
@@ -69,11 +71,8 @@ public class MqMsgManageServiceImpl implements MqMsgManageService {
                 res.setStatusStr("未知");
             }
             // 处理推送记录
-
-
-
-
-
+            List<TbMqMsgPushReleation> pushRecordList = tbMqMsgPushReleationMapper.listByMqMsgId(id);
+            res.setPushRecordList(pushRecordList);
         }
         res.setPushRecordList(recordList);
         return res;

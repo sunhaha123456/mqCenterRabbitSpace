@@ -39,4 +39,7 @@ public class TbMqMsgPushReleation extends BaseDataIdLong {
 	// 备注：当推送类别是 1，表示 管理员主动推送时，使用
 	@Column(name = "active_push_mq_msg_user_id", columnDefinition = "INT(11) COMMENT '主动推送消息的管理员id'")
 	private Long activePushMqMsgUserId;
+
+	@Transient
+	private String activePushMqMsgUserName;
 }
