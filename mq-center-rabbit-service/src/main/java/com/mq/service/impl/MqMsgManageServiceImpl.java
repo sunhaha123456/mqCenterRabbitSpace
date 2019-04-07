@@ -109,6 +109,9 @@ public class MqMsgManageServiceImpl implements MqMsgManageService {
         if (res.getStatus() == 1 && res.getTotalPushCount() >= 3) {
             // 使用 http请求目标地址
 
+
+            //tbMqMsgRepository.updateForFailPush(id);
+            //tbMqMsgRepository.updateForSuccessPush(id);
         } else {
             throw new BusinessException("不符合手动推送条件！");
         }
