@@ -4,6 +4,7 @@ import com.mq.common.data.base.PageList;
 import com.mq.common.data.response.ResponseResultCode;
 import com.mq.common.exception.BusinessException;
 import com.mq.common.util.DateUtil;
+import com.mq.common.util.HttpClientUtil;
 import com.mq.common.util.ValueHolder;
 import com.mq.data.entity.TbMqMsg;
 import com.mq.data.entity.TbMqMsgPushReleation;
@@ -108,7 +109,7 @@ public class MqMsgManageServiceImpl implements MqMsgManageService {
         TbMqMsg res = tbMqMsgOptional.get();
         if (res.getStatus() == 1 && res.getTotalPushCount() >= 3) {
             // 使用 http请求目标地址
-
+            //HttpClientUtil.postJson()
 
             //tbMqMsgRepository.updateForFailPush(id);
             //tbMqMsgRepository.updateForSuccessPush(id);
