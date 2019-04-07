@@ -38,4 +38,10 @@ public class MqMsgManageControler {
     public TbMqMsg queryDetail(@RequestParam Long id) throws Exception {
         return mqMsgManageService.queryDetail(id);
     }
+
+    @ResponseBody
+    @GetMapping(value= "/handBuildMqMsg")
+    public void handBuildMqMsg(@RequestBody TbMqMsg mqMsg) throws Exception {
+        mqMsgManageService.handBuildMqMsg(mqMsg);
+    }
 }

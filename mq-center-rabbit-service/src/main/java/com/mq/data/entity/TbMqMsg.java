@@ -1,6 +1,7 @@
 package com.mq.data.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.mq.common.data.base.BaseDataIdLong;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -15,6 +16,7 @@ import java.util.List;
  * @author sunpeng
  * @date 2019
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Data
 @Entity
 @Table(name = "tb_mq_msg")

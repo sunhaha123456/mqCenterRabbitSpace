@@ -4,6 +4,7 @@ import com.mq.common.data.base.PageList;
 import com.mq.common.data.response.ResponseResultCode;
 import com.mq.common.exception.BusinessException;
 import com.mq.common.util.DateUtil;
+import com.mq.common.util.ValueHolder;
 import com.mq.data.entity.TbMqMsg;
 import com.mq.data.entity.TbMqMsgPushReleation;
 import com.mq.data.entity.TbUser;
@@ -15,9 +16,11 @@ import com.mq.dbopt.repository.TbUserRepository;
 import com.mq.service.MqMsgManageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,6 +36,8 @@ public class MqMsgManageServiceImpl implements MqMsgManageService {
     private TbUserRepository tbUserRepository;
     @Inject
     private TbMqMsgPushReleationMapper tbMqMsgPushReleationMapper;
+    @Inject
+    private ValueHolder valueHolder;
 
     @Override
     public PageList<TbMqMsg> search(MqMsgSearchRequest param) throws Exception {
@@ -59,7 +64,6 @@ public class MqMsgManageServiceImpl implements MqMsgManageService {
                 res.setRequestPushPlatformStr("管理员：" + buildMqMsgUser.getUname() + "，主动构建消息");
             }
         }
-        List<TbMqMsgPushReleation> recordList = new ArrayList();
         if (res.getStatus() == 0) {
             res.setStatusStr("未推送");
         } else {
@@ -74,7 +78,23 @@ public class MqMsgManageServiceImpl implements MqMsgManageService {
             List<TbMqMsgPushReleation> pushRecordList = tbMqMsgPushReleationMapper.listByMqMsgId(id);
             res.setPushRecordList(pushRecordList);
         }
-        res.setPushRecordList(recordList);
+        if (res.getPushRecordList() == null) {
+            res.setPushRecordList(new ArrayList());
+        }
         return res;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void handBuildMqMsg(TbMqMsg mqMsg) {
+        Date now = new Date();
+        mqMsg.setId(null);
+        mqMsg.setCreateDate(now);
+        mqMsg.setLastModified(now);
+        mqMsg.setRequestPushPlatform(0);
+        mqMsg.setActiveBuildMqMsgUserId(valueHolder.getUserIdHolder());
+        mqMsg.setStatus(0);
+        mqMsg.setTotalPushCount(0);
+        tbMqMsgRepository.save(mqMsg);
     }
 }

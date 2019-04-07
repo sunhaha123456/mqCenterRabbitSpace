@@ -24,7 +24,6 @@ public class ResponseResult implements Serializable {
     private String msg;
 
     // 响应数据
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Object data;
 
     public static ResponseResult build(Integer code, String msg) {

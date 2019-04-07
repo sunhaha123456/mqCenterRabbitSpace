@@ -21,12 +21,14 @@
                 var mqMsgContentAdd = $('#mqMsgContentAdd').val();
                 var mqMsgRemarkAdd = $('#mqMsgRemarkAdd').val();
                 var mqMsgDestAddrAdd = $('#mqMsgDestAddrAdd').val();
+                var mqMsgIntervalSecond = $('#mqMsgIntervalSecondAdd').val();
                 var param = {
                     "requestPushMsgContent": mqMsgContentAdd,
                     "requestPushRemark": mqMsgRemarkAdd,
-                    "requestPushDestAddr": mqMsgDestAddrAdd
+                    "requestPushDestAddr": mqMsgDestAddrAdd,
+                    "requestPushIntervalSecond": mqMsgIntervalSecond
                 };
-                var result = ajaxSynchPostJson("user/mqMsgManage/add", param);
+                var result = ajaxSynchPostJson("user/mqMsgManage/handBuildMqMsg", param);
                 if (result.code == '200') {
                     alertSuccess();
                     $('#manager_add').dialog('close');
@@ -62,10 +64,15 @@
                 var result = ajaxSynchGet("user/mqMsgManage/queryDetail", {"id": id});
                 if (result.code == '200') {
                     var data = result.data;
-
-
-
-                    $('#manager_msgDetailPushRecordGrid').datagrid('loadData', result.data);
+                    $("#msgDetailShowCreateDate").text(data.createDate);
+                    $("#msgDetailShowPushPlatform").text(data.requestPushPlatformStr);
+                    $("#msgDetailShowPushRemark").text(data.requestPushRemark);
+                    $("#msgDetailShowPushIntervalSecond").text(data.requestPushIntervalSecond);
+                    $("#msgDetailShowPushStatus").text(data.statusStr);
+                    $("#msgDetailShowPushTotalCount").text(data.totalPushCount);
+                    $("#msgDetailShowPushDestAddr").text(data.requestPushDestAddr);
+                    $("#msgDetailShowPushContent").text(data.requestPushMsgContent);
+                    $('#manager_msgDetailPushRecordGrid').datagrid('loadData', data.pushRecordList);
                     $('#manager_msgDetailWindow').dialog('open');
                 } else {
                     alertWarn(result.msg);
@@ -229,10 +236,10 @@
     <p>目的地址：<input class="easyui-validatebox" data-options="required:true,validType:'length[1,250]',missingMessage:'请输入目的地址',invalidMessage:'目的地址长度至少为1位'," type="text" id="mqMsgDestAddrAdd" style="width:450px;" /></p>
     <p>间隔时间(秒)：<input class="easyui-validatebox" data-options="required:true,validType:'length[1,10]',missingMessage:'请输入间隔时间（0表示立即送达）',invalidMessage:'间隔时间长度至少为1位'," type="text" id="mqMsgIntervalSecondAdd" style="width:450px;" /></p>
 </form>
-<div id="manager_msgDetailWindow" class="easyui-window" style="background-color:#F4F4F4;" data-options="top:150,width:1100,title:'查看',modal:true,closed:true,iconCls:'icon-user-add',cache:false,collapsible:false,minimizable:false,maximizable:false">
+<div id="manager_msgDetailWindow" class="easyui-window" style="background-color:#F4F4F4;" data-options="top:150,width:900,title:'查看',modal:true,closed:true,iconCls:'icon-user-add',cache:false,collapsible:false,minimizable:false,maximizable:false">
     <div id="manager_msgDetailInfoPanel">
         <p>推送请求创建时间：<span id="msgDetailShowCreateDate" ></span>&nbsp;&nbsp;&nbsp;&nbsp;推送请求方平台：<span id="msgDetailShowPushPlatform"></span>&nbsp;&nbsp;&nbsp;&nbsp;推送方备注：<span id="msgDetailShowPushRemark"></span></p>
-        <p>推送间隔时间(秒)：<span id="msgDetailShowPushIntervalSecond"></span>&nbsp;&nbsp;&nbsp;&nbsp;推送状态：<span id="msgDetailShowPushStatus"></span>&nbsp;&nbsp;&nbsp;&nbsp;累计推送次数：<span id="msgDetailShowPushTotalCount"></span>&nbsp;&nbsp;&nbsp;&nbsp;</p>
+        <p>推送间隔时间(秒)：<span id="msgDetailShowPushIntervalSecond"></span>&nbsp;&nbsp;&nbsp;&nbsp;推送状态：<span id="msgDetailShowPushStatus"></span>&nbsp;&nbsp;&nbsp;&nbsp;累计推送次数：<span id="msgDetailShowPushTotalCount"></span>&nbsp;&nbsp;&nbsp;&nbsp;请求送达地址：<span id="msgDetailShowPushDestAddr"></span></p>
         <p>推送内容：<span id="msgDetailShowPushContent"></span></p>
     </div>
     <table id="manager_msgDetailPushRecordGrid" class="easyui-datagrid" data-options="fit:false,fitColumns:true,striped:true,rownumbers:true,border:false,singleSelect:true,pagination:false">
