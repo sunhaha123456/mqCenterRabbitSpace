@@ -96,26 +96,36 @@ public class MqMsgManageServiceImpl implements MqMsgManageService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void handPushMqMsg(Long id) {
+    public String handPushMqMsg(Long id) {
         Optional<TbMqMsg> tbMqMsgOptional = tbMqMsgRepository.findById(id);
         if (!tbMqMsgOptional.isPresent()) {
-            throw new BusinessException(ResponseResultCode.PARAM_ERROR);
+            return "参数错误";
         }
         TbMqMsg res = tbMqMsgOptional.get();
         if (res.getStatus() == 1 && res.getTotalPushCount() >= 3) {
             // 使用 http请求目标地址
             String resp = HttpClientUtil.postJson(res.getRequestPushDestAddr(), res.getRequestPushMsgContent(), true);
-            if (StringUtil.isNotEmpty(resp)) {
-                Map<String, Object> map = JsonUtil.jsonToMap(resp);
-                if ("200".equals(map.get("code") + "")) {
-                    // 当成功
-                }
+            if (StringUtil.isEmpty(resp)) {
+                log.error("接口-/user/mqMsgManage/handPushMqMsg，请求目标地址：{}，请求入参：{}，返回空", res.getRequestPushDestAddr(), res.getRequestPushMsgContent());
+                tbMqMsgRepository.updateForFailPush(id);
+                return "失败";
             }
-            // 当失败
-            //tbMqMsgRepository.updateForFailPush(id);
-            //tbMqMsgRepository.updateForSuccessPush(id);
+            Map<String, Object> map = JsonUtil.jsonToMap(resp);
+            if (map == null) {
+                log.error("接口-/user/mqMsgManage/handPushMqMsg，请求目标地址：{}，请求入参：{}，返回格式错误", res.getRequestPushDestAddr(), res.getRequestPushMsgContent());
+                tbMqMsgRepository.updateForFailPush(id);
+                return "失败";
+            }
+            if (!"200".equals(map.get("code") + "")) {
+                log.error("接口-/user/mqMsgManage/handPushMqMsg，请求目标地址：{}，请求入参：{}，返回状态码!=200", res.getRequestPushDestAddr(), res.getRequestPushMsgContent());
+                tbMqMsgRepository.updateForFailPush(id);
+                return "失败";
+            }
+            // 交互成功
+            tbMqMsgRepository.updateForSuccessPush(id);
+            return "成功";
         } else {
-            throw new BusinessException("不符合手动推送条件！");
+            return "不符合手动推送条件";
         }
     }
 }

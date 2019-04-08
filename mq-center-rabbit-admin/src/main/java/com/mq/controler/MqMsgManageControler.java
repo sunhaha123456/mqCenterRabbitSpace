@@ -1,6 +1,7 @@
 package com.mq.controler;
 
 import com.mq.common.data.base.PageList;
+import com.mq.common.data.response.StringResponse;
 import com.mq.data.entity.TbMqMsg;
 import com.mq.data.to.request.MqMsgSearchRequest;
 import com.mq.service.MqMsgManageService;
@@ -47,7 +48,8 @@ public class MqMsgManageControler {
 
     @ResponseBody
     @GetMapping(value= "/handPushMqMsg")
-    public void handPushMqMsg(@RequestParam Long id) throws Exception {
-        mqMsgManageService.handPushMqMsg(id);
+    public StringResponse handPushMqMsg(@RequestParam Long id) throws Exception {
+        String resStr = mqMsgManageService.handPushMqMsg(id);
+        return new StringResponse(resStr);
     }
 }

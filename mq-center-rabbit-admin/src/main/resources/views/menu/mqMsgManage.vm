@@ -45,12 +45,8 @@
                     if (rows.length > 0) {
                         var id = rows[0].id;
                         var result = ajaxSynchGet("user/mqMsgManage/handPushMqMsg", {"id": id});
-                        if (result.code == '200') {
-                            alertSuccess();
-                            searchMqMsg();
-                        } else {
-                            alertWarn(result.msg);
-                        }
+                        alertInfo(result.msg);
+                        searchMqMsg();
                     } else {
                         alertWarn('未选择记录！');
                     }
