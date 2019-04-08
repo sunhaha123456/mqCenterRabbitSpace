@@ -13,7 +13,6 @@ public enum RequestPushPlatformEnum implements EnumBaseType {
     private Integer key;
     private String value;
 
-
     @Override
     public Integer getKey() {
         return key;

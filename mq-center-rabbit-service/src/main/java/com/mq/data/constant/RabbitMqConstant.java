@@ -1,5 +1,8 @@
 package com.mq.data.constant;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * 功能：Rabbit消息队列相关常量
  * @author sunpeng
@@ -14,4 +17,6 @@ public interface RabbitMqConstant {
     String DEFAULT_DEAD_QUEUE = "system_default_dl_queue";
     // 系统默认自带死信转发队列（也是交换机默认对应路由键）
     String DEFAULT_DEAD_QUEUE_REDIRECT = "system_default_dl_redirect_queue";
+
+    List<Integer> QUEUE_NUM_LIST = Arrays.asList(0);
 }

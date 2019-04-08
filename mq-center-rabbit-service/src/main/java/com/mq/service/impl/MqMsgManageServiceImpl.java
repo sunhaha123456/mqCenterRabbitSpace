@@ -4,9 +4,11 @@ import com.mq.common.data.base.PageList;
 import com.mq.common.data.response.ResponseResultCode;
 import com.mq.common.exception.BusinessException;
 import com.mq.common.util.*;
+import com.mq.data.constant.RabbitMqConstant;
 import com.mq.data.entity.TbMqMsg;
 import com.mq.data.entity.TbMqMsgPushReleation;
 import com.mq.data.entity.TbUser;
+import com.mq.data.enums.RequestPushPlatformEnum;
 import com.mq.data.to.request.MqMsgSearchRequest;
 import com.mq.data.to.request.ThirdPlatformBuildMqMsgRequest;
 import com.mq.dbopt.mapper.TbMqMsgMapper;
@@ -15,6 +17,7 @@ import com.mq.dbopt.repository.TbMqMsgRepository;
 import com.mq.dbopt.repository.TbUserRepository;
 import com.mq.service.MqMsgManageService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -84,6 +87,9 @@ public class MqMsgManageServiceImpl implements MqMsgManageService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void handBuildMqMsg(TbMqMsg mqMsg) {
+        if (mqMsg.getRequestPushIntervalSecond() < 3) {
+            throw new BusinessException("间隔时间最小为3秒！");
+        }
         Date now = new Date();
         mqMsg.setId(null);
         mqMsg.setCreateDate(now);
@@ -133,6 +139,46 @@ public class MqMsgManageServiceImpl implements MqMsgManageService {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public void thirdPlatformBuildMqMsg(ThirdPlatformBuildMqMsgRequest param) {
+        if (param == null) {
+            log.error("接口-/mqMsg/thirdPlatformBuildMqMsg，入参为null");
+            throw new BusinessException(ResponseResultCode.PARAM_ERROR);
+        }
+        if (StringUtil.isEmpty(param.getRequestPushMsgContent()) || param.getRequestPushMsgContent().length() > 495) {
+            log.error("接口-/mqMsg/thirdPlatformBuildMqMsg，入参requestPushMsgContent格式错误");
+            throw new BusinessException(ResponseResultCode.PARAM_ERROR);
+        }
+        if (param.getRequestPushPlatform() == null || param.getRequestPushPlatform().intValue() == 0 || StringUtil.isEmpty(EnumUtils.returnValueByKey(param.getRequestPushPlatform(), RequestPushPlatformEnum.class))) {
+            log.error("接口-/mqMsg/thirdPlatformBuildMqMsg，入参requestPushPlatform格式错误");
+            throw new BusinessException(ResponseResultCode.PARAM_ERROR);
+        }
+        if (StringUtil.isNotEmpty(param.getRequestPushRemark()) && param.getRequestPushRemark().length() > 250) {
+            log.error("接口-/mqMsg/thirdPlatformBuildMqMsg，入参requestPushRemark格式错误");
+            throw new BusinessException(ResponseResultCode.PARAM_ERROR);
+        }
+        if (StringUtil.isEmpty(param.getRequestPushDestAddr()) || param.getRequestPushDestAddr().length() > 250) {
+            log.error("接口-/mqMsg/thirdPlatformBuildMqMsg，入参requestPushDestAddr格式错误");
+            throw new BusinessException(ResponseResultCode.PARAM_ERROR);
+        }
+        if (param.getRequestPushIntervalSecond() == null || param.getRequestPushIntervalSecond().intValue() < 3) {
+            log.error("接口-/mqMsg/thirdPlatformBuildMqMsg，入参requestPushIntervalSecond格式错误");
+            throw new BusinessException(ResponseResultCode.PARAM_ERROR);
+        }
+        if (param.getRequestQueueNum() != null && !RabbitMqConstant.QUEUE_NUM_LIST.contains(param.getRequestQueueNum())) {
+            log.error("接口-/mqMsg/thirdPlatformBuildMqMsg，入参requestQueueNum格式错误");
+            throw new BusinessException(ResponseResultCode.PARAM_ERROR);
+        }
+        TbMqMsg mqMsg = new TbMqMsg();
+        BeanUtils.copyProperties(param, mqMsg);
+        Date now = new Date();
+        mqMsg.setId(null);
+        mqMsg.setCreateDate(now);
+        mqMsg.setLastModified(now);
+        mqMsg.setRequestPushPlatform(param.getRequestPushPlatform());
+        mqMsg.setActiveBuildMqMsgUserId(null);
+        mqMsg.setStatus(0);
+        mqMsg.setTotalPushCount(0);
+        tbMqMsgRepository.save(mqMsg);
 
+        //
     }
 }

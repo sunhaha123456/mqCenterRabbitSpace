@@ -48,7 +48,7 @@ public class TbMqMsg extends BaseDataIdLong {
 	private String requestPushDestAddr;
 
 	// 请求间隔多少秒后送达
-	@Column(name = "request_push_interval_second", columnDefinition = "varchar(255) DEFAULT 0 COMMENT '请求间隔多少秒后送达'")
+	@Column(name = "request_push_interval_second", columnDefinition = "INT COMMENT '请求间隔多少秒后送达'")
 	private Long requestPushIntervalSecond;
 
 	// 推送状态

@@ -12,7 +12,7 @@
     <script th:src="@{/static/myFun.js}"></script>
     <script th:inline="none">
         function addMqMsgShow() {
-            $('#mqMsgIntervalSecondAdd').val('0');
+            $('#mqMsgIntervalSecondAdd').val('3');
             $('#manager_add').dialog('open');
             $('#mqMsgContentAdd').focus();
         }
@@ -230,7 +230,7 @@
     <p>消息内容：<input class="easyui-validatebox" data-options="required:true,validType:'length[1,490]',missingMessage:'请输入消息内容',invalidMessage:'消息内容长度至少为1位'," type="text" id="mqMsgContentAdd" style="width:450px;" /></p>
     <p>备&nbsp;&nbsp;&nbsp;&nbsp;注：<input class="easyui-validatebox" type="text" id="mqMsgRemarkAdd" style="width:450px;" /></p>
     <p>目的地址：<input class="easyui-validatebox" data-options="required:true,validType:'length[1,250]',missingMessage:'请输入目的地址',invalidMessage:'目的地址长度至少为1位'," type="text" id="mqMsgDestAddrAdd" style="width:450px;" /></p>
-    <p>间隔时间(秒)：<input class="easyui-validatebox" data-options="required:true,validType:'length[1,10]',missingMessage:'请输入间隔时间（0表示立即送达）',invalidMessage:'间隔时间长度至少为1位'," type="text" id="mqMsgIntervalSecondAdd" style="width:450px;" /></p>
+    <p>间隔时间(秒)：<input class="easyui-validatebox" data-options="required:true,validType:'length[1,10]',missingMessage:'请输入间隔时间（最小值为3）',invalidMessage:'间隔时间长度至少为1位'," type="text" id="mqMsgIntervalSecondAdd" style="width:450px;" /></p>
 </form>
 <div id="manager_msgDetailWindow" class="easyui-window" style="background-color:#F4F4F4;" data-options="top:150,width:900,title:'查看',modal:true,closed:true,iconCls:'icon-user-add',cache:false,collapsible:false,minimizable:false,maximizable:false">
     <div id="manager_msgDetailInfoPanel">
