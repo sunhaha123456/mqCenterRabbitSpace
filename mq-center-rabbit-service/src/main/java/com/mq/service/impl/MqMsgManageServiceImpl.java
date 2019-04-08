@@ -8,6 +8,7 @@ import com.mq.data.entity.TbMqMsg;
 import com.mq.data.entity.TbMqMsgPushReleation;
 import com.mq.data.entity.TbUser;
 import com.mq.data.to.request.MqMsgSearchRequest;
+import com.mq.data.to.request.ThirdPlatformBuildMqMsgRequest;
 import com.mq.dbopt.mapper.TbMqMsgMapper;
 import com.mq.dbopt.mapper.TbMqMsgPushReleationMapper;
 import com.mq.dbopt.repository.TbMqMsgRepository;
@@ -127,5 +128,11 @@ public class MqMsgManageServiceImpl implements MqMsgManageService {
         } else {
             return "不符合手动推送条件";
         }
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public void thirdPlatformBuildMqMsg(ThirdPlatformBuildMqMsgRequest param) {
+
     }
 }

@@ -3,15 +3,15 @@ package com.mq.data.constant;
 /**
  * 功能：Rabbit消息队列相关常量
  * @author sunpeng
- * @date 2018
+ * @date 2019
  */
 public interface RabbitMqConstant {
-    // 声明死信交换机
-    String DEAD_EXCHANGE = "DL_EXCHANGE";
-    // 声明死信路由键
-    // String DEAD_KEY = "DL_KEY";
-    // 声明死信队列
-    String DEAD_QUEUE = "DL_QUEUE";
-    // 声明死信转发队列
-    String DEAD_QUEUE_REDIRECT = "DL_QUEUE_REDIRECT";
+    // 系统默认自带死信交换机
+    String DEFAULT_EXCHANGE = "system_default_exchange";
+
+    // 系统默认自带死信队列（也是交换机默认对应路由键）
+    // 队列编号：0，即：0号私信队列
+    String DEFAULT_DEAD_QUEUE = "system_default_dl_queue";
+    // 系统默认自带死信转发队列（也是交换机默认对应路由键）
+    String DEFAULT_DEAD_QUEUE_REDIRECT = "system_default_dl_redirect_queue";
 }
