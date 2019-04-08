@@ -16,6 +16,7 @@ import com.mq.dbopt.mapper.TbMqMsgPushReleationMapper;
 import com.mq.dbopt.repository.TbMqMsgRepository;
 import com.mq.dbopt.repository.TbUserRepository;
 import com.mq.service.MqMsgManageService;
+import com.mq.service.RabbitMqService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
@@ -36,6 +37,8 @@ public class MqMsgManageServiceImpl implements MqMsgManageService {
     private TbUserRepository tbUserRepository;
     @Inject
     private TbMqMsgPushReleationMapper tbMqMsgPushReleationMapper;
+    @Inject
+    private RabbitMqService rabbitMqService;
     @Inject
     private ValueHolder valueHolder;
 
@@ -99,6 +102,10 @@ public class MqMsgManageServiceImpl implements MqMsgManageService {
         mqMsg.setStatus(0);
         mqMsg.setTotalPushCount(0);
         tbMqMsgRepository.save(mqMsg);
+        rabbitMqService.pushDeadLineMqMsg(RabbitMqConstant.DEFAULT_EXCHANGE,
+                RabbitMqConstant.DEFAULT_DEAD_QUEUE,
+                mqMsg.getRequestPushMsgContent(),
+                mqMsg.getRequestPushIntervalSecond());
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -178,7 +185,9 @@ public class MqMsgManageServiceImpl implements MqMsgManageService {
         mqMsg.setStatus(0);
         mqMsg.setTotalPushCount(0);
         tbMqMsgRepository.save(mqMsg);
-
-        //
+        rabbitMqService.pushDeadLineMqMsg(RabbitMqConstant.DEFAULT_EXCHANGE,
+                RabbitMqConstant.DEFAULT_DEAD_QUEUE,
+                mqMsg.getRequestPushMsgContent(),
+                mqMsg.getRequestPushIntervalSecond());
     }
 }

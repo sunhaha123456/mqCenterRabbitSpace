@@ -17,6 +17,10 @@ public class RabbitMqDefaultDLRedirctQueue {
     @RabbitHandler
     @RabbitListener(queues = RabbitMqConstant.DEFAULT_DEAD_QUEUE_REDIRECT)
     public void process(String msg) {
+
+
+
+
         System.out.println("死信转发队列收到消息：" + msg);
     }
 }
