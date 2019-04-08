@@ -3,9 +3,7 @@ package com.mq.service.impl;
 import com.mq.common.data.base.PageList;
 import com.mq.common.data.response.ResponseResultCode;
 import com.mq.common.exception.BusinessException;
-import com.mq.common.util.DateUtil;
-import com.mq.common.util.HttpClientUtil;
-import com.mq.common.util.ValueHolder;
+import com.mq.common.util.*;
 import com.mq.data.entity.TbMqMsg;
 import com.mq.data.entity.TbMqMsgPushReleation;
 import com.mq.data.entity.TbUser;
@@ -20,10 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -109,8 +104,14 @@ public class MqMsgManageServiceImpl implements MqMsgManageService {
         TbMqMsg res = tbMqMsgOptional.get();
         if (res.getStatus() == 1 && res.getTotalPushCount() >= 3) {
             // 使用 http请求目标地址
-            //HttpClientUtil.postJson()
-
+            String resp = HttpClientUtil.postJson(res.getRequestPushDestAddr(), res.getRequestPushMsgContent(), true);
+            if (StringUtil.isNotEmpty(resp)) {
+                Map<String, Object> map = JsonUtil.jsonToMap(resp);
+                if ("200".equals(map.get("code") + "")) {
+                    // 当成功
+                }
+            }
+            // 当失败
             //tbMqMsgRepository.updateForFailPush(id);
             //tbMqMsgRepository.updateForSuccessPush(id);
         } else {
