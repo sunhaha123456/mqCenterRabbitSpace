@@ -28,7 +28,7 @@ public class TbMqMsg extends BaseDataIdLong {
 
 	// 请求推送方平台
 	// 0：（管理人员）手动构建消息 1：xxx平台 2：yyy平台 3：zzz平台
-	@Column(name = "request_push_platform", columnDefinition = "INT(1) COMMENT '请求推送方平台'")
+	@Column(name = "request_push_platform", columnDefinition = "INT COMMENT '请求推送方平台'")
 	private Integer requestPushPlatform;
 
 	@Transient
@@ -36,7 +36,7 @@ public class TbMqMsg extends BaseDataIdLong {
 
 	// 主动构建消息的管理员id
 	// 备注：当请求推送方平台是 0，表示 管理人员主动新建消息时，使用
-	@Column(name = "active_build_mq_msg_user_id", columnDefinition = "INT(11) COMMENT '主动构建消息的管理员id'")
+	@Column(name = "active_build_mq_msg_user_id", columnDefinition = "INT COMMENT '主动构建消息的管理员id'")
 	private Long activeBuildMqMsgUserId;
 
 	// 请求推送方备注
@@ -53,7 +53,7 @@ public class TbMqMsg extends BaseDataIdLong {
 
 	// 推送状态
 	// 0：未推送 1：推送失败 2：推送成功
-	@Column(name = "status", columnDefinition = "INT(1) DEFAULT 0 COMMENT '推送状态'")
+	@Column(name = "status", columnDefinition = "TINYINT DEFAULT 0 COMMENT '推送状态'")
 	private Integer status;
 
 	// 比如：2019-04-10 12:12:12，推送成功 或 推送失败
@@ -68,7 +68,7 @@ public class TbMqMsg extends BaseDataIdLong {
 	private Date deliverDate;
 
 	// 累计推送次数
-	@Column(name = "total_push_count", columnDefinition = "INT(11) DEFAULT 0 COMMENT '累计推送次数'")
+	@Column(name = "total_push_count", columnDefinition = "INT DEFAULT 0 COMMENT '累计推送次数'")
 	private Integer totalPushCount;
 
 	@Transient

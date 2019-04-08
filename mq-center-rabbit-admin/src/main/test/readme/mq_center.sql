@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50520
 File Encoding         : 65001
 
-Date: 2019-04-06 14:13:51
+Date: 2019-04-08 14:06:17
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -28,9 +28,9 @@ CREATE TABLE `tb_mq_msg` (
   `request_push_dest_addr` varchar(255) DEFAULT NULL COMMENT '请求送达地址',
   `request_push_interval_second` varchar(255) DEFAULT '0' COMMENT '请求间隔多少秒后送达',
   `request_push_msg_content` varchar(500) DEFAULT NULL COMMENT '要推送的消息内容',
-  `request_push_platform` int(1) DEFAULT NULL COMMENT '请求推送方平台',
+  `request_push_platform` int(11) DEFAULT NULL COMMENT '请求推送方平台',
   `request_push_remark` varchar(255) DEFAULT NULL COMMENT '请求推送方备注',
-  `status` int(1) DEFAULT '0' COMMENT '推送状态',
+  `status` tinyint(4) DEFAULT '0' COMMENT '推送状态',
   `total_push_count` int(11) DEFAULT '0' COMMENT '累计推送次数',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
@@ -49,8 +49,8 @@ CREATE TABLE `tb_mq_msg_push_releation` (
   `last_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `active_push_mq_msg_user_id` int(11) DEFAULT NULL COMMENT '主动推送消息的管理员id',
   `mq_msg_id` bigint(20) DEFAULT NULL,
-  `push_type` int(1) DEFAULT '0' COMMENT '推送状态',
-  `status` int(1) DEFAULT '0' COMMENT '推送状态',
+  `push_type` tinyint(4) DEFAULT '0' COMMENT '推送状态',
+  `status` tinyint(4) DEFAULT '0' COMMENT '推送状态',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
