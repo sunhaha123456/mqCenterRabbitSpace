@@ -45,6 +45,10 @@ public class RabbitMqServiceImpl implements RabbitMqService {
             log.error("pushDeadLineMqMsgByMsgId方法，msgId:{}，002-查无对应数据记录，不再进行推送，默认做吃掉处理", msgId);
             return;
         }
-        pushDeadLineMqMsg(exchange, queue, msg.getRequestPushMsgContent(), intervalSecond);
+        if (msg.getStatus() != 2 && msg.getTotalPushCount() < 3) {
+            pushDeadLineMqMsg(exchange, queue, msg.getRequestPushMsgContent(), intervalSecond);
+        } else {
+            log.error("pushDeadLineMqMsgByMsgId方法，msgId:{}，003-对应消息不符合推送条件，不再进行推送，默认做吃掉处理", msgId);
+        }
     }
 }

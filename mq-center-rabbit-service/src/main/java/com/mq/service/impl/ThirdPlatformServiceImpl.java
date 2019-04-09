@@ -43,16 +43,16 @@ public class ThirdPlatformServiceImpl implements ThirdPlatformService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void defaultRemotePostPushByMsg(Long msgId, boolean returnLogFlag) {
+    public boolean defaultRemotePostPushByMsg(Long msgId, boolean returnLogFlag) {
         Optional<TbMqMsg> tbMqMsgOptional = tbMqMsgRepository.findById(msgId);
         if (!tbMqMsgOptional.isPresent()) {
             log.error("defaultRemotePostPushByMsgId方法，msgId:{}，001-查无对应数据记录，不再进行推送，默认做吃掉处理", msgId);
-            return;
+            return true;
         }
         TbMqMsg msg = tbMqMsgOptional.get();
         if (msg == null) {
             log.error("defaultRemotePostPushByMsgId方法，msgId:{}，002-查无对应数据记录，不再进行推送，默认做吃掉处理", msgId);
-            return;
+            return true;
         }
         if (msg.getStatus() != 2 && msg.getTotalPushCount() < 3) {
             int status = 1;
@@ -80,8 +80,10 @@ public class ThirdPlatformServiceImpl implements ThirdPlatformService {
             re.setPushType(0);
             re.setActivePushMqMsgUserId(null);
             tbMqMsgPushReleationRepository.save(re);
+            return status == 1 ? true : false;
         } else {
             log.error("defaultRemotePostPushByMsgId方法，msgId：{}，003-对应消息，不符合推送条件，不再进行推送，默认做吃掉处理", msgId);
+            return true;
         }
     }
 }

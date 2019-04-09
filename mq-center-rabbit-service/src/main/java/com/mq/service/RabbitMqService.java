@@ -1,8 +1,7 @@
 package com.mq.service;
 
 /**
- * 功能：
- *
+ * 功能：rabbit mq service
  * @author sunpeng
  * @date 2019
  */

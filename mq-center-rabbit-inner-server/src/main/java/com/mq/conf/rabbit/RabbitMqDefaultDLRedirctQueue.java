@@ -33,13 +33,18 @@ public class RabbitMqDefaultDLRedirctQueue {
     public void process(Object msgSign) {
         try {
             Long msgId = Long.valueOf(msgSign + "");
+            boolean flag = true;
             try {
-                thirdPlatformService.defaultRemotePostPushByMsg(msgId, true);
+                flag = thirdPlatformService.defaultRemotePostPushByMsg(msgId, true);
             } catch (Exception e1) {
+                flag = false;
+            } finally {
                 try {
-                    log.info("死信转发队列：{}，消息：{}，推送失败后，再次放入死信队列中【start】", RabbitMqConstant.DEFAULT_DEAD_QUEUE_REDIRECT, msgSign);
-                    rabbitMqService.pushDeadLineMqMsgByMsgId(RabbitMqConstant.DEFAULT_EXCHANGE, RabbitMqConstant.DEFAULT_DEAD_QUEUE, msgId, 5L);
-                    log.info("死信转发队列：{}，消息：{}，推送失败后，再次放入死信队列中【成功】", RabbitMqConstant.DEFAULT_DEAD_QUEUE_REDIRECT, msgSign);
+                    if (!flag) {
+                        log.info("死信转发队列：{}，消息：{}，推送失败后，再次放入死信队列中【start】", RabbitMqConstant.DEFAULT_DEAD_QUEUE_REDIRECT, msgSign);
+                        rabbitMqService.pushDeadLineMqMsgByMsgId(RabbitMqConstant.DEFAULT_EXCHANGE, RabbitMqConstant.DEFAULT_DEAD_QUEUE, msgId, 5L);
+                        log.info("死信转发队列：{}，消息：{}，推送失败后，再次放入死信队列中【成功】", RabbitMqConstant.DEFAULT_DEAD_QUEUE_REDIRECT, msgSign);
+                    }
                 } catch (Exception e2) {
                     log.error("死信转发队列：{}，消息：{}，推送失败后，再次放入死信队列中【失败】(需人工手动介入)", RabbitMqConstant.DEFAULT_DEAD_QUEUE_REDIRECT, msgSign);
                 }
