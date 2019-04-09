@@ -18,7 +18,7 @@ public class RabbitMqServiceImpl implements RabbitMqService {
     private AmqpTemplate rabbitTemplate;
 
     @Override
-    public void pushDeadLineMqMsg(String exchange, String queue, String content, Long intervalSecond) {
+    public void pushDeadLineMqMsg(String exchange, String queue, Object content, Long intervalSecond) {
         MessagePostProcessor processor = message -> {
             MessageProperties messageProperties = message.getMessageProperties();
             messageProperties.setContentEncoding("utf-8");

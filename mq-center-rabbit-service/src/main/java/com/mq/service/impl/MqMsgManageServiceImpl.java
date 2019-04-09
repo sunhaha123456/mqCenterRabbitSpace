@@ -3,7 +3,10 @@ package com.mq.service.impl;
 import com.mq.common.data.base.PageList;
 import com.mq.common.data.response.ResponseResultCode;
 import com.mq.common.exception.BusinessException;
-import com.mq.common.util.*;
+import com.mq.common.util.DateUtil;
+import com.mq.common.util.EnumUtils;
+import com.mq.common.util.StringUtil;
+import com.mq.common.util.ValueHolder;
 import com.mq.data.constant.RabbitMqConstant;
 import com.mq.data.entity.TbMqMsg;
 import com.mq.data.entity.TbMqMsgPushReleation;
@@ -13,17 +16,22 @@ import com.mq.data.to.request.MqMsgSearchRequest;
 import com.mq.data.to.request.ThirdPlatformBuildMqMsgRequest;
 import com.mq.dbopt.mapper.TbMqMsgMapper;
 import com.mq.dbopt.mapper.TbMqMsgPushReleationMapper;
+import com.mq.dbopt.repository.TbMqMsgPushReleationRepository;
 import com.mq.dbopt.repository.TbMqMsgRepository;
 import com.mq.dbopt.repository.TbUserRepository;
 import com.mq.service.MqMsgManageService;
 import com.mq.service.RabbitMqService;
+import com.mq.service.ThirdPlatformService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -34,11 +42,15 @@ public class MqMsgManageServiceImpl implements MqMsgManageService {
     @Inject
     private TbMqMsgRepository tbMqMsgRepository;
     @Inject
+    private TbMqMsgPushReleationRepository tbMqMsgPushReleationRepository;
+    @Inject
     private TbUserRepository tbUserRepository;
     @Inject
     private TbMqMsgPushReleationMapper tbMqMsgPushReleationMapper;
     @Inject
     private RabbitMqService rabbitMqService;
+    @Inject
+    private ThirdPlatformService thirdPlatformService;
     @Inject
     private ValueHolder valueHolder;
 
@@ -117,19 +129,21 @@ public class MqMsgManageServiceImpl implements MqMsgManageService {
         }
         TbMqMsg res = tbMqMsgOptional.get();
         if (res.getStatus() == 1 && res.getTotalPushCount() >= 3) {
-            // 使用 http请求目标地址
-            String resp = HttpClientUtil.postJson(res.getRequestPushDestAddr(), res.getRequestPushMsgContent(), true);
-            if (StringUtil.isEmpty(resp)) {
-                log.error("接口-/user/mqMsgManage/handPushMqMsg，请求目标地址：{}，请求入参：{}，返回空", res.getRequestPushDestAddr(), res.getRequestPushMsgContent());
+            int c = tbMqMsgRepository.updateForSuccessPush(id);
+            if (c !=1 ) {
+                log.error("接口-/user/mqMsgManage/handPushMqMsg，数据库处理失败");
                 throw new BusinessException(ResponseResultCode.OPERT_ERROR);
             }
-            Map<String, Object> map = JsonUtil.jsonToMap(resp);
-            if (map == null || !"200".equals(map.get("code") + "")) {
-                log.error("接口-/user/mqMsgManage/handPushMqMsg，请求目标地址：{}，请求入参：{}，返回状态码!=200", res.getRequestPushDestAddr(), res.getRequestPushMsgContent());
-                throw new BusinessException(ResponseResultCode.OPERT_ERROR);
-            }
-            // 交互成功
-            tbMqMsgRepository.updateForSuccessPush(id);
+            TbMqMsgPushReleation re = new TbMqMsgPushReleation();
+            Date now = new Date();
+            re.setCreateDate(now);
+            re.setLastModified(now);
+            re.setMqMsgId(res.getId());
+            re.setStatus(1);
+            re.setPushType(1);
+            re.setActivePushMqMsgUserId(valueHolder.getUserIdHolder());
+            tbMqMsgPushReleationRepository.save(re);
+            thirdPlatformService.defaultRemotePostPush(res.getRequestPushDestAddr(), res.getRequestPushMsgContent(), true);
         } else {
             throw new BusinessException("不符合手动推送条件");
         }
@@ -176,10 +190,10 @@ public class MqMsgManageServiceImpl implements MqMsgManageService {
         mqMsg.setActiveBuildMqMsgUserId(null);
         mqMsg.setStatus(0);
         mqMsg.setTotalPushCount(0);
-        tbMqMsgRepository.save(mqMsg);
+        TbMqMsg mqMsgRes = tbMqMsgRepository.save(mqMsg);
         rabbitMqService.pushDeadLineMqMsg(RabbitMqConstant.DEFAULT_EXCHANGE,
                 RabbitMqConstant.DEFAULT_DEAD_QUEUE,
-                mqMsg.getRequestPushMsgContent(),
-                mqMsg.getRequestPushIntervalSecond());
+                mqMsgRes.getId(),
+                mqMsgRes.getRequestPushIntervalSecond());
     }
 }

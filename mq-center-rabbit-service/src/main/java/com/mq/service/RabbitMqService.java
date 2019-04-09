@@ -7,5 +7,5 @@ package com.mq.service;
  * @date 2019
  */
 public interface RabbitMqService {
-    void pushDeadLineMqMsg(String exchange, String queue, String content, Long intervalSecond);
+    void pushDeadLineMqMsg(String exchange, String queue, Object content, Long intervalSecond);
 }
