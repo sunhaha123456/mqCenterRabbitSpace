@@ -110,10 +110,10 @@ public class MqMsgManageServiceImpl implements MqMsgManageService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public String handPushMqMsg(Long id) {
+    public void handPushMqMsg(Long id) {
         Optional<TbMqMsg> tbMqMsgOptional = tbMqMsgRepository.findById(id);
         if (!tbMqMsgOptional.isPresent()) {
-            return "参数错误";
+            throw new BusinessException(ResponseResultCode.PARAM_ERROR);
         }
         TbMqMsg res = tbMqMsgOptional.get();
         if (res.getStatus() == 1 && res.getTotalPushCount() >= 3) {
@@ -121,25 +121,17 @@ public class MqMsgManageServiceImpl implements MqMsgManageService {
             String resp = HttpClientUtil.postJson(res.getRequestPushDestAddr(), res.getRequestPushMsgContent(), true);
             if (StringUtil.isEmpty(resp)) {
                 log.error("接口-/user/mqMsgManage/handPushMqMsg，请求目标地址：{}，请求入参：{}，返回空", res.getRequestPushDestAddr(), res.getRequestPushMsgContent());
-                tbMqMsgRepository.updateForFailPush(id);
-                return "失败";
+                throw new BusinessException(ResponseResultCode.OPERT_ERROR);
             }
             Map<String, Object> map = JsonUtil.jsonToMap(resp);
-            if (map == null) {
-                log.error("接口-/user/mqMsgManage/handPushMqMsg，请求目标地址：{}，请求入参：{}，返回格式错误", res.getRequestPushDestAddr(), res.getRequestPushMsgContent());
-                tbMqMsgRepository.updateForFailPush(id);
-                return "失败";
-            }
-            if (!"200".equals(map.get("code") + "")) {
+            if (map == null || !"200".equals(map.get("code") + "")) {
                 log.error("接口-/user/mqMsgManage/handPushMqMsg，请求目标地址：{}，请求入参：{}，返回状态码!=200", res.getRequestPushDestAddr(), res.getRequestPushMsgContent());
-                tbMqMsgRepository.updateForFailPush(id);
-                return "失败";
+                throw new BusinessException(ResponseResultCode.OPERT_ERROR);
             }
             // 交互成功
             tbMqMsgRepository.updateForSuccessPush(id);
-            return "成功";
         } else {
-            return "不符合手动推送条件";
+            throw new BusinessException("不符合手动推送条件");
         }
     }
 

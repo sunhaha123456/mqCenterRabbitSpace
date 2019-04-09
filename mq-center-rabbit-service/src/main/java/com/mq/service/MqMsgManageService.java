@@ -14,6 +14,6 @@ public interface MqMsgManageService {
     PageList<TbMqMsg> search(MqMsgSearchRequest param) throws Exception;
     TbMqMsg queryDetail(Long id);
     void handBuildMqMsg(TbMqMsg mqMsg);
-    String handPushMqMsg(Long id);
+    void handPushMqMsg(Long id);
     void thirdPlatformBuildMqMsg(ThirdPlatformBuildMqMsgRequest param);
 }
