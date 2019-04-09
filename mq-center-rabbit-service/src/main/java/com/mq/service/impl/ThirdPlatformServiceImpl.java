@@ -5,7 +5,6 @@ import com.mq.common.exception.BusinessException;
 import com.mq.common.util.HttpClientUtil;
 import com.mq.common.util.JsonUtil;
 import com.mq.common.util.StringUtil;
-import com.mq.data.constant.RabbitMqConstant;
 import com.mq.data.entity.TbMqMsg;
 import com.mq.data.entity.TbMqMsgPushReleation;
 import com.mq.dbopt.repository.TbMqMsgPushReleationRepository;
@@ -64,7 +63,7 @@ public class ThirdPlatformServiceImpl implements ThirdPlatformService {
             }
             int c1 = 0;
             if (status == 1) { // 当推送成功
-                c1 = tbMqMsgRepository.updateForSuccessPush(msg.getId());
+                c1 = tbMqMsgRepository.updateForSuccessPushWithCheck(msg.getId());
             } else { // 当推送失败
                 c1 = tbMqMsgRepository.updateForFailPush(msg.getId());
             }

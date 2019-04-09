@@ -41,7 +41,7 @@ public class RabbitMqDefaultDLRedirctQueue {
                     rabbitMqService.pushDeadLineMqMsgByMsgId(RabbitMqConstant.DEFAULT_EXCHANGE, RabbitMqConstant.DEFAULT_DEAD_QUEUE, msgId, 5L);
                     log.info("死信转发队列：{}，消息：{}，推送失败后，再次放入死信队列中【成功】", RabbitMqConstant.DEFAULT_DEAD_QUEUE_REDIRECT, msgSign);
                 } catch (Exception e2) {
-                    log.error("死信转发队列：{}，消息：{}，推送失败后，再次放入死信队列中【失败(需人工手动介入)】", RabbitMqConstant.DEFAULT_DEAD_QUEUE_REDIRECT, msgSign);
+                    log.error("死信转发队列：{}，消息：{}，推送失败后，再次放入死信队列中【失败】(需人工手动介入)", RabbitMqConstant.DEFAULT_DEAD_QUEUE_REDIRECT, msgSign);
                 }
             }
         } catch (Exception e) {

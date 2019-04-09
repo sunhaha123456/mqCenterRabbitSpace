@@ -3,10 +3,7 @@ package com.mq.service.impl;
 import com.mq.common.data.base.PageList;
 import com.mq.common.data.response.ResponseResultCode;
 import com.mq.common.exception.BusinessException;
-import com.mq.common.util.DateUtil;
-import com.mq.common.util.EnumUtils;
-import com.mq.common.util.StringUtil;
-import com.mq.common.util.ValueHolder;
+import com.mq.common.util.*;
 import com.mq.data.constant.RabbitMqConstant;
 import com.mq.data.entity.TbMqMsg;
 import com.mq.data.entity.TbMqMsgPushReleation;
@@ -129,11 +126,7 @@ public class MqMsgManageServiceImpl implements MqMsgManageService {
         }
         TbMqMsg res = tbMqMsgOptional.get();
         if (res.getStatus() != 2) {
-            int c = tbMqMsgRepository.updateForSuccessPush(id);
-            if (c !=1 ) {
-                log.error("接口-/user/mqMsgManage/handPushMqMsg，数据库处理失败");
-                throw new BusinessException(ResponseResultCode.OPERT_ERROR);
-            }
+            tbMqMsgRepository.updateForSuccessPushNoCheck(id); // 此处不需要前置条件判断
             TbMqMsgPushReleation re = new TbMqMsgPushReleation();
             Date now = new Date();
             re.setCreateDate(now);
@@ -156,6 +149,7 @@ public class MqMsgManageServiceImpl implements MqMsgManageService {
             log.error("接口-/mqMsg/thirdPlatformBuildMqMsg，入参为null");
             throw new BusinessException(ResponseResultCode.PARAM_ERROR);
         }
+        log.info("接口-/mqMsg/thirdPlatformBuildMqMsg，入参json串:{}", JsonUtil.objectToJson(param));
         if (StringUtil.isEmpty(param.getRequestPushMsgContent()) || param.getRequestPushMsgContent().length() > 495) {
             log.error("接口-/mqMsg/thirdPlatformBuildMqMsg，入参requestPushMsgContent格式错误");
             throw new BusinessException(ResponseResultCode.PARAM_ERROR);
