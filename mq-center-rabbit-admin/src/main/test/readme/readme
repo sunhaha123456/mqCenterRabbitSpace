@@ -1,3 +1,4 @@
+    愿景是使用sharding做分表，技术上具备，实践中出于各种考量，未使用sharding分表
 1、需要调用消息中心的使用者，做好防重校验，
 即：消息可能重复推送到达，对于重复送达的消息，业务端需要返回接受成功
 2、要求各方做好消息中心宕掉的应对措施，比如可以预留后门接口
@@ -8,5 +9,14 @@
     系统推送三次失败后，系统不再进行推送，但可由管理员手动进行推送，以及手动构建消息，重新放入消息队列
     事事无绝对，出于避免RabbitListener 陷入死循环的考量，系统采用柔性推送，极端情况时，系统将不进行推送，需由操作者手动推送
     对推送请求有完备数据库记录，配有可视化查看、操作界面
-
-    愿景是使用sharding做分表，技术上具备，实践中出于各种考量，未使用sharding分表
+5、对外统一请求推送接口
+    http://127.0.0.1:8082/mqCenterInnerServer/mqMsg/thirdPlatformBuildMqMsg
+    post
+    {
+        "requestPushMsgContent":        String      要推送的消息内容，必传，长度限制490
+        "requestPushPlatform":          Integer     请求推送方平台，必传，1：xxx平台 2：yyy平台 3：zzz平台
+        "requestPushRemark":            String      请求推送方备注，非必传，长度限制245
+        "requestPushDestAddr":          String      请求送达地址，必传，长度限制245
+        "requestPushIntervalSecond":    Long        请求间隔多少秒后送达，禁止 < 3
+        "requestQueueNum":              Integer    请求使用队列编号，非必传
+    }
