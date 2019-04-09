@@ -5,6 +5,7 @@ import com.mq.common.exception.BusinessException;
 import com.mq.common.util.HttpClientUtil;
 import com.mq.common.util.JsonUtil;
 import com.mq.common.util.StringUtil;
+import com.mq.data.constant.RabbitMqConstant;
 import com.mq.data.entity.TbMqMsg;
 import com.mq.data.entity.TbMqMsgPushReleation;
 import com.mq.dbopt.repository.TbMqMsgPushReleationRepository;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.inject.Inject;
 import java.util.Date;
 import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -42,21 +44,45 @@ public class ThirdPlatformServiceImpl implements ThirdPlatformService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void defaultRemotePostPushForSuccess(TbMqMsg msg, boolean returnLogFlag) {
-        int c = tbMqMsgRepository.updateForSuccessPush(msg.getId());
-        if (c !=1 ) {
-            log.error("defaultRemotePostPushForSuccess方法，数据库处理失败");
-            throw new BusinessException(ResponseResultCode.OPERT_ERROR);
+    public void defaultRemotePostPushByMsg(Long msgId, boolean returnLogFlag) {
+        Optional<TbMqMsg> tbMqMsgOptional = tbMqMsgRepository.findById(msgId);
+        if (!tbMqMsgOptional.isPresent()) {
+            log.error("defaultRemotePostPushByMsgId方法，msgId:{}，001-查无对应数据记录，不再进行推送，默认做吃掉处理", msgId);
+            return;
         }
-        TbMqMsgPushReleation re = new TbMqMsgPushReleation();
-        Date now = new Date();
-        re.setCreateDate(now);
-        re.setLastModified(now);
-        re.setMqMsgId(msg.getId());
-        re.setStatus(1);
-        re.setPushType(0);
-        re.setActivePushMqMsgUserId(null);
-        tbMqMsgPushReleationRepository.save(re);
-        defaultRemotePostPush(msg.getRequestPushDestAddr(), msg.getRequestPushMsgContent(), true);
+        TbMqMsg msg = tbMqMsgOptional.get();
+        if (msg == null) {
+            log.error("defaultRemotePostPushByMsgId方法，msgId:{}，002-查无对应数据记录，不再进行推送，默认做吃掉处理", msgId);
+            return;
+        }
+        if (msg.getStatus() != 2 && msg.getTotalPushCount() < 3) {
+            int status = 1;
+            try {
+                defaultRemotePostPush(msg.getRequestPushDestAddr(), msg.getRequestPushMsgContent(), true);
+            } catch (Exception e) {
+                status = 0;
+            }
+            int c1 = 0;
+            if (status == 1) { // 当推送成功
+                c1 = tbMqMsgRepository.updateForSuccessPush(msg.getId());
+            } else { // 当推送失败
+                c1 = tbMqMsgRepository.updateForFailPush(msg.getId());
+            }
+            if (c1 !=1 ) {
+                log.error("defaultRemotePostPushByMsgId方法，004-数据库处理失败");
+                throw new BusinessException(ResponseResultCode.OPERT_ERROR);
+            }
+            TbMqMsgPushReleation re = new TbMqMsgPushReleation();
+            Date now = new Date();
+            re.setCreateDate(now);
+            re.setLastModified(now);
+            re.setMqMsgId(msg.getId());
+            re.setStatus(status);
+            re.setPushType(0);
+            re.setActivePushMqMsgUserId(null);
+            tbMqMsgPushReleationRepository.save(re);
+        } else {
+            log.error("defaultRemotePostPushByMsgId方法，msgId：{}，003-对应消息，不符合推送条件，不再进行推送，默认做吃掉处理", msgId);
+        }
     }
 }

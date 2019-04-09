@@ -39,7 +39,7 @@
             }
         }
         function handPushMqMsg(){
-            $.messager.confirm('确认', '未成功送达三次的消息，才能手动推送！确认推送？', function(r){
+            $.messager.confirm('确认', '只有未推送成功的消息，才能手动推送！确认推送？', function(r){
                 if(r) {
                     var rows = $('#manager').datagrid('getSelections');
                     if (rows.length > 0) {

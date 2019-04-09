@@ -128,7 +128,7 @@ public class MqMsgManageServiceImpl implements MqMsgManageService {
             throw new BusinessException(ResponseResultCode.PARAM_ERROR);
         }
         TbMqMsg res = tbMqMsgOptional.get();
-        if (res.getStatus() == 1 && res.getTotalPushCount() >= 3) {
+        if (res.getStatus() != 2) {
             int c = tbMqMsgRepository.updateForSuccessPush(id);
             if (c !=1 ) {
                 log.error("接口-/user/mqMsgManage/handPushMqMsg，数据库处理失败");

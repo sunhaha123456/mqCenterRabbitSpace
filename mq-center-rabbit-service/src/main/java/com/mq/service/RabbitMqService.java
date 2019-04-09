@@ -8,4 +8,5 @@ package com.mq.service;
  */
 public interface RabbitMqService {
     void pushDeadLineMqMsg(String exchange, String queue, Object content, Long intervalSecond);
+    void pushDeadLineMqMsgByMsgId(String exchange, String queue, Long msgId, Long intervalSecond);
 }
