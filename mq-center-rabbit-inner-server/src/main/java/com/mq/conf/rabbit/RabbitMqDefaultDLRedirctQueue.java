@@ -24,8 +24,8 @@ public class RabbitMqDefaultDLRedirctQueue {
 
     /**
      * 功能：系统默认自带死信转发队列-回调方法
-     * 备注：该方法不能抛Exception，否则会死循环
-     *       多台机器同时处理时候，一个消息只会被处理一次
+     * 备注：1、此处禁止抛Exception
+     *       2、多台机器同时处理时候，一个消息只会被处理一次
      * @param msgSign
      */
     @RabbitHandler
@@ -44,7 +44,7 @@ public class RabbitMqDefaultDLRedirctQueue {
                     log.error("死信转发队列：{}，消息：{}，推送失败后，再次放入死信队列中【失败】(需人工手动介入)", RabbitMqConstant.DEFAULT_DEAD_QUEUE_REDIRECT, msgSign);
                 }
             }
-        } catch (Exception e) {
+        } catch (Throwable e) {
             log.error("死信转发队列：{}，消息：{}，001-解析错误，不再进行推送，默认做吃掉处理", RabbitMqConstant.DEFAULT_DEAD_QUEUE_REDIRECT, msgSign);
         }
     }
