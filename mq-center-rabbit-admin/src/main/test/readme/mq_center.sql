@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50520
 File Encoding         : 65001
 
-Date: 2019-04-08 14:06:17
+Date: 2019-04-09 21:01:56
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -26,7 +26,7 @@ CREATE TABLE `tb_mq_msg` (
   `active_build_mq_msg_user_id` int(11) DEFAULT NULL COMMENT '主动构建消息的管理员id',
   `deliver_date` datetime DEFAULT NULL,
   `request_push_dest_addr` varchar(255) DEFAULT NULL COMMENT '请求送达地址',
-  `request_push_interval_second` varchar(255) DEFAULT '0' COMMENT '请求间隔多少秒后送达',
+  `request_push_interval_second` int(11) DEFAULT NULL COMMENT '请求间隔多少秒后送达',
   `request_push_msg_content` varchar(500) DEFAULT NULL COMMENT '要推送的消息内容',
   `request_push_platform` int(11) DEFAULT NULL COMMENT '请求推送方平台',
   `request_push_remark` varchar(255) DEFAULT NULL COMMENT '请求推送方备注',
