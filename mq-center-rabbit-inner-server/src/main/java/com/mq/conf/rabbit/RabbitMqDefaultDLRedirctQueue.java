@@ -1,7 +1,6 @@
 package com.mq.conf.rabbit;
 
 import com.mq.data.constant.RabbitMqConstant;
-import com.mq.dbopt.repository.TbMqMsgRepository;
 import com.mq.service.RabbitMqService;
 import com.mq.service.ThirdPlatformService;
 import lombok.extern.slf4j.Slf4j;
@@ -15,8 +14,6 @@ import javax.inject.Inject;
 @Component
 public class RabbitMqDefaultDLRedirctQueue {
 
-    @Inject
-    private TbMqMsgRepository tbMqMsgRepository;
     @Inject
     private ThirdPlatformService thirdPlatformService;
     @Inject
