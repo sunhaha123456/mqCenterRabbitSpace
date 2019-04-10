@@ -20,3 +20,4 @@
         "requestPushIntervalSecond":    Long        请求间隔多少秒后送达，禁止 < 3
         "requestQueueNum":              Integer    请求使用队列编号，非必传
     }
+6、回调时，会post回调入参请求地址

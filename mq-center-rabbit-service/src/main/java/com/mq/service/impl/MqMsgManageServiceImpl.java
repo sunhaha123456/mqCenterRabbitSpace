@@ -57,6 +57,9 @@ public class MqMsgManageServiceImpl implements MqMsgManageService {
         long c = tbMqMsgMapper.countByOption(param);
         if (c > 0) {
             List<TbMqMsg> list = tbMqMsgMapper.selectByOption(param);
+            for (TbMqMsg msg : list) {
+                msg.setRequestPushPlatformStr(EnumUtils.returnValueByKey(msg.getRequestPushPlatform(), RequestPushPlatformEnum.class));
+            }
             return new PageList<TbMqMsg>(c, list);
         }
         return new PageList<TbMqMsg>(0, new ArrayList());

@@ -1,7 +1,6 @@
 package com.mq.controler;
 
 import com.mq.common.data.base.PageList;
-import com.mq.common.data.response.StringResponse;
 import com.mq.data.entity.TbMqMsg;
 import com.mq.data.to.request.MqMsgSearchRequest;
 import com.mq.service.MqMsgManageService;
