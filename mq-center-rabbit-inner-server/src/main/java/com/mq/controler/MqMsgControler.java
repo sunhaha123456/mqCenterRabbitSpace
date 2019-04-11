@@ -23,7 +23,7 @@ public class MqMsgControler {
 
     @ResponseBody
     @PostMapping(value= "/callbackTest")
-    public void callbackTest(@RequestParam Object param) throws Exception {
+    public void callbackTest(@RequestBody Object param) throws Exception {
         log.info("收到回调消息：" + JsonUtil.objectToJson(param));
     }
 }

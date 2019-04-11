@@ -25,7 +25,7 @@ public class RabbitMqDefaultDLRedirctQueue {
      * @param msgSign
      */
     @RabbitListener(queues = RabbitMqConstant.DEFAULT_DEAD_QUEUE_REDIRECT)
-    public void process(Object msgSign) {
+    public void process(String msgSign) {
         try {
             Long msgId = Long.valueOf(msgSign + "");
             boolean flag = true;

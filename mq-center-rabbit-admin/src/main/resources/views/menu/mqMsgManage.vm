@@ -125,6 +125,11 @@
                         width : 100,
                     },
                     {
+                        field : 'requestPushIntervalSecond',
+                        title : '推送间隔时间',
+                        width : 100,
+                    },
+                    {
                         field : 'requestPushMsgContent',
                         title : '推送内容',
                         width : 100,
