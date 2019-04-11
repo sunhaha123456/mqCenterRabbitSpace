@@ -22,14 +22,14 @@ public class RabbitMqServiceImpl implements RabbitMqService {
     private TbMqMsgRepository tbMqMsgRepository;
 
     @Override
-    public void pushDeadLineMqMsg(String exchange, String queue, Object content, Long intervalSecond) {
+    public void pushDeadLineMqMsg(String exchange, String queue, Long msgId, Long intervalSecond) {
         MessagePostProcessor processor = message -> {
             MessageProperties messageProperties = message.getMessageProperties();
             messageProperties.setContentEncoding("utf-8");
             messageProperties.setExpiration(String.valueOf(intervalSecond * 1000)); // 延迟毫秒数
             return message;
         };
-        rabbitTemplate.convertAndSend(exchange, queue, content, processor);
+        rabbitTemplate.convertAndSend(exchange, queue, msgId, processor);
     }
 
     @Override

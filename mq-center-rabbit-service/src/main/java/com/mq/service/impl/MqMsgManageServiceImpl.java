@@ -124,10 +124,10 @@ public class MqMsgManageServiceImpl implements MqMsgManageService {
         mqMsg.setActiveBuildMqMsgUserId(valueHolder.getUserIdHolder());
         mqMsg.setStatus(0);
         mqMsg.setTotalPushCount(0);
-        tbMqMsgRepository.save(mqMsg);
+        TbMqMsg res = tbMqMsgRepository.save(mqMsg);
         rabbitMqService.pushDeadLineMqMsg(RabbitMqConstant.DEFAULT_EXCHANGE,
                 RabbitMqConstant.DEFAULT_DEAD_QUEUE,
-                mqMsg.getRequestPushMsgContent(),
+                res.getId(),
                 mqMsg.getRequestPushIntervalSecond());
     }
 
@@ -150,7 +150,8 @@ public class MqMsgManageServiceImpl implements MqMsgManageService {
             re.setPushType(1);
             re.setActivePushMqMsgUserId(valueHolder.getUserIdHolder());
             tbMqMsgPushReleationRepository.save(re);
-            thirdPlatformService.defaultRemotePostPush(res.getRequestPushDestAddr(), res.getRequestPushMsgContent(), true);
+            throw new BusinessException("aaaa");
+            //thirdPlatformService.defaultRemotePostPush(res.getRequestPushDestAddr(), res.getRequestPushMsgContent(), true);
         } else {
             throw new BusinessException("不符合手动推送条件");
         }

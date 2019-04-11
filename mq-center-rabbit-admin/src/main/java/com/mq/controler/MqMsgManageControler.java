@@ -47,7 +47,7 @@ public class MqMsgManageControler {
 
     @ResponseBody
     @GetMapping(value= "/handPushMqMsg")
-    public void handPushMqMsg(@RequestParam Long id) throws Exception {
+    public void handPushMqMsg(@RequestParam Long id){
         mqMsgManageService.handPushMqMsg(id);
     }
 }
