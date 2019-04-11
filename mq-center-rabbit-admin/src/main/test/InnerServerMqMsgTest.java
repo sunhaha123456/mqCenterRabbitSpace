@@ -33,7 +33,7 @@ public class InnerServerMqMsgTest {
 			param.setRequestPushPlatform(2);
 			param.setRequestPushRemark("无");
 			param.setRequestPushDestAddr(destUrl);
-			Long intervalSecond = Long.valueOf(1+(int)(Math.random()*10)) * 1000;
+			Long intervalSecond = Long.valueOf(1+(int)(Math.random()*10));
 			param.setRequestPushIntervalSecond(intervalSecond);
 			HttpClientUtil.postJson(requestUrl, JsonUtil.objectToJson(param), true);
 		}

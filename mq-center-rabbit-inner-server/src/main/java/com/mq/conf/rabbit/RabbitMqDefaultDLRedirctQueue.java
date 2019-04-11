@@ -4,7 +4,6 @@ import com.mq.data.constant.RabbitMqConstant;
 import com.mq.service.RabbitMqService;
 import com.mq.service.ThirdPlatformService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.rabbit.annotation.RabbitHandler;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
@@ -25,7 +24,6 @@ public class RabbitMqDefaultDLRedirctQueue {
      *       2、多台机器同时处理时候，一个消息只会被处理一次
      * @param msgSign
      */
-    @RabbitHandler
     @RabbitListener(queues = RabbitMqConstant.DEFAULT_DEAD_QUEUE_REDIRECT)
     public void process(Object msgSign) {
         try {
