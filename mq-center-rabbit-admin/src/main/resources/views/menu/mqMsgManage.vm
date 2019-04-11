@@ -86,6 +86,7 @@
                 "startDate": $('#startDate').datetimebox('getValue'),
                 "endDate": $('#endDate').datetimebox('getValue'),
                 "requestPushPlatform": $('#requestPushPlatform').combobox('getValue'),
+                "pushStatus": $('#requestPushStatus').combobox('getValue'),
                 "requestPushMsgContent": $('#requestPushMsgContent').val(),
                 "page":1, "rows":10
             };
@@ -170,6 +171,7 @@
                         "startDate": $('#startDate').datetimebox('getValue'),
                         "endDate": $('#endDate').datetimebox('getValue'),
                         "requestPushPlatform": $('#requestPushPlatform').combobox('getValue'),
+                        "pushStatus": $('#requestPushStatus').combobox('getValue'),
                         "requestPushMsgContent": $('#requestPushMsgContent').val(),
                         "page":pageNumber, "rows":pageSize
                     };
@@ -183,6 +185,7 @@
 
         function webPageInit() {
             var requestPushPlatformData = [
+                {"key": "请选择", "value": "请选择"},
                 {"key": 0, "value": "人工手动构建消息"},
                 {"key": 1, "value": "xxx平台"},
                 {"key": 2, "value": "yyy平台"},
@@ -211,6 +214,12 @@
             结束时间：<input type="text" class="easyui-datetimebox" id="endDate" style="width:165px" />&nbsp;&nbsp;
             推送平台：<select class="easyui-combobox" id="requestPushPlatform" style="width:125px;" data-options="valueField:'key',textField:'value'">
                         <option value="请选择" selected="true" />
+                      </select>&nbsp;&nbsp;
+            推送状态：<select class="easyui-combobox" id="requestPushStatus" style="width:125px;" data-options="valueField:'key',textField:'value'">
+                        <option value="全部" selected="true">全部</option>
+                        <option value="0">未推送</option>
+                        <option value="1">推送失败</option>
+                        <option value="2">推送成功</option>
                       </select>&nbsp;&nbsp;<br />
             消息内容：<input type="text" class="textbox" id="requestPushMsgContent" style="width:595px" />&nbsp;&nbsp;
             <a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="searchMqMsg()">查询</a>

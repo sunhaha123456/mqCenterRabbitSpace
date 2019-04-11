@@ -26,6 +26,9 @@
     <if test="requestPushPlatform != null and requestPushPlatform != '' and requestPushPlatform != '请选择'">
       and request_push_platform = #{requestPushPlatform}
     </if>
+    <if test="pushStatus != null and pushStatus != '' and pushStatus != '全部'">
+      and status = #{pushStatus}
+    </if>
     <if test="requestPushMsgContent != null and requestPushMsgContent != ''">
       and request_push_msg_content = #{requestPushMsgContent}
     </if>
@@ -41,6 +44,9 @@
     where 1 = 1
     <if test="requestPushPlatform != null and requestPushPlatform != '' and requestPushPlatform != '请选择'">
       and request_push_platform = #{requestPushPlatform}
+    </if>
+    <if test="pushStatus != null and pushStatus != '' and pushStatus != '全部'">
+      and status = #{pushStatus}
     </if>
     <if test="requestPushMsgContent != null and requestPushMsgContent != ''">
       and request_push_msg_content = #{requestPushMsgContent}

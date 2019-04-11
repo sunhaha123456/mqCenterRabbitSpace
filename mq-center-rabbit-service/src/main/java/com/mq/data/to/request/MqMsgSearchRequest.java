@@ -13,5 +13,6 @@ public class MqMsgSearchRequest extends PageParam {
     private String endDate;
     private String requestPushPlatform;
     private String requestPushMsgContent;
+    private String pushStatus; // 0：未推送 1：推送失败 2：推送成功
     private Long start;
 }
