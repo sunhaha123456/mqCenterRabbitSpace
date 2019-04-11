@@ -16,16 +16,14 @@ public class InnerServerMqMsgTest {
 
 	@Test
 	public void thirdPlatformBuildMqMsgTest() throws Exception {
-		int c = 0;
-		while (true) {
-			c++;
+		for (int x = 0; x<1000 ;x++) {
 			String requestUrl = "http://127.0.0.1:8082/mqCenterInnerServer/mqMsg/thirdPlatformBuildMqMsg";
 			String destUrl = "http://127.0.0.1:8082/mqCenterInnerServer/mqMsg/callbackTest";
 			Map<String, Object> msg = new HashMap();
 			msg.put("id", (int)(Math.random()*100));
 			String content = JsonUtil.objectToJson(msg);
 			ThirdPlatformBuildMqMsgRequest param = new ThirdPlatformBuildMqMsgRequest();
-			if (c < 5) {
+			if (x < 5) {
 				param.setRequestPushMsgContent(Math.random() + "");
 			} else {
 				param.setRequestPushMsgContent(content);
