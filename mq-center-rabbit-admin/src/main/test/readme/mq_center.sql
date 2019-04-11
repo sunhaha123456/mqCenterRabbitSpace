@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50520
 File Encoding         : 65001
 
-Date: 2019-04-11 11:54:04
+Date: 2019-04-11 15:31:22
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -33,7 +33,7 @@ CREATE TABLE `tb_mq_msg` (
   `status` tinyint(4) DEFAULT '0' COMMENT '推送状态',
   `total_push_count` int(11) DEFAULT '0' COMMENT '累计推送次数',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_mq_msg
@@ -52,7 +52,7 @@ CREATE TABLE `tb_mq_msg_push_releation` (
   `push_type` tinyint(4) DEFAULT '0' COMMENT '推送状态',
   `status` tinyint(4) DEFAULT '0' COMMENT '推送状态',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_mq_msg_push_releation
@@ -69,7 +69,7 @@ CREATE TABLE `tb_user` (
   `uname` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '用户名',
   `upwd` varchar(255) CHARACTER SET utf8 COLLATE utf8_bin DEFAULT NULL COMMENT '密码',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tb_user
