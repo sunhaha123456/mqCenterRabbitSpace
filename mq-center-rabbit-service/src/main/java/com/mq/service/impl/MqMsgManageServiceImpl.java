@@ -150,8 +150,7 @@ public class MqMsgManageServiceImpl implements MqMsgManageService {
             re.setPushType(1);
             re.setActivePushMqMsgUserId(valueHolder.getUserIdHolder());
             tbMqMsgPushReleationRepository.save(re);
-            throw new BusinessException("aaaa");
-            //thirdPlatformService.defaultRemotePostPush(res.getRequestPushDestAddr(), res.getRequestPushMsgContent(), true);
+            thirdPlatformService.defaultRemotePostPush(res.getRequestPushDestAddr(), res.getRequestPushMsgContent(), true);
         } else {
             throw new BusinessException("不符合手动推送条件");
         }
