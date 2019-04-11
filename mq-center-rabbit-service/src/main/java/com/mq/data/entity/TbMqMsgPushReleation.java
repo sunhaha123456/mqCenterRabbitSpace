@@ -33,7 +33,7 @@ public class TbMqMsgPushReleation extends BaseDataIdLong {
 
 	// 推送类别字符串，比如：系统推送 或 管理员：xxx，主动推送
 	@Transient
-	private Integer pushTypeStr;
+	private String pushTypeStr;
 
 	// 主动推送消息的管理员id
 	// 备注：当推送类别是 1，表示 管理员主动推送时，使用

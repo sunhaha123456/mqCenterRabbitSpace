@@ -91,6 +91,17 @@ public class MqMsgManageServiceImpl implements MqMsgManageService {
             }
             // 处理推送记录
             List<TbMqMsgPushReleation> pushRecordList = tbMqMsgPushReleationMapper.listByMqMsgId(id);
+            if (pushRecordList != null) {
+                for (TbMqMsgPushReleation r : pushRecordList) {
+                    if (r.getPushType() == 0) {
+                        r.setPushTypeStr("系统推送");
+                    } else if (r.getPushType() == 1) {
+                        r.setPushTypeStr(String.format("管理员：%s，主动推送", r.getActivePushMqMsgUserName()));
+                    } else {
+                        r.setPushTypeStr("未知");
+                    }
+                }
+            }
             res.setPushRecordList(pushRecordList);
         }
         if (res.getPushRecordList() == null) {
