@@ -30,7 +30,6 @@ public class RabbitMqServiceImpl implements RabbitMqService {
             return message;
         };
         rabbitTemplate.convertAndSend(exchange, queue, content, processor);
-
     }
 
     @Override

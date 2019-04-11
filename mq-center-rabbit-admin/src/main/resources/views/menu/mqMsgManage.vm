@@ -67,7 +67,7 @@
                     $("#msgDetailShowCreateDate").text(data.createDate);
                     $("#msgDetailShowPushPlatform").text(data.requestPushPlatformStr);
                     $("#msgDetailShowPushRemark").text(data.requestPushRemark);
-                    $("#msgDetailShowPushIntervalSecond").text(data.requestPushIntervalSecond/1000);
+                    $("#msgDetailShowPushIntervalSecond").text(data.requestPushIntervalSecond);
                     $("#msgDetailShowPushStatus").text(data.statusStr);
                     $("#msgDetailShowPushTotalCount").text(data.totalPushCount);
                     $("#msgDetailShowPushDestAddr").text(data.requestPushDestAddr);
