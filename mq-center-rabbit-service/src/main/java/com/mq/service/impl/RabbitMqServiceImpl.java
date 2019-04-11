@@ -45,7 +45,7 @@ public class RabbitMqServiceImpl implements RabbitMqService {
             return;
         }
         if (msg.getStatus() != 2 && msg.getTotalPushCount() < 3) {
-            pushDeadLineMqMsg(exchange, queue, msg.getRequestPushMsgContent(), intervalSecond);
+            pushDeadLineMqMsg(exchange, queue, msgId, intervalSecond);
         } else {
             log.error("pushDeadLineMqMsgByMsgId方法，msgId:{}，003-对应消息不符合推送条件，不再进行推送，默认做吃掉处理", msgId);
         }
