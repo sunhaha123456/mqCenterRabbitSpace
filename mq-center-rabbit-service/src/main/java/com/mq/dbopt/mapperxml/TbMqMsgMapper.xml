@@ -33,7 +33,7 @@
       and request_push_msg_content = #{requestPushMsgContent}
     </if>
     <if test="startDate != null and startDate != ''">
-      and #{startDate} &gt;= create_date
+      and #{startDate} &lt;= create_date
     </if>
     <if test="endDate != null and endDate != ''">
       and create_date &lt;= #{endDate}
@@ -52,11 +52,11 @@
       and request_push_msg_content = #{requestPushMsgContent}
     </if>
     <if test="startDate != null and startDate != ''">
-      and #{startDate} &gt;= create_date
+      and #{startDate} &lt;= create_date
     </if>
     <if test="endDate != null and endDate != ''">
       and create_date &lt;= #{endDate}
     </if>
-    order by id asc limit #{start}, #{rows}
+    order by id desc limit #{start}, #{rows}
   </select>
 </mapper>
