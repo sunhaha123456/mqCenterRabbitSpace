@@ -25,7 +25,7 @@ public class InnerServerMqMsgTest {
 			msg.put("id", (int)(Math.random()*100));
 			String content = JsonUtil.objectToJson(msg);
 			ThirdPlatformBuildMqMsgRequest param = new ThirdPlatformBuildMqMsgRequest();
-			if (c < 50) {
+			if (c < 5) {
 				param.setRequestPushMsgContent(Math.random() + "");
 			} else {
 				param.setRequestPushMsgContent(content);
