@@ -16,7 +16,7 @@ public class InnerServerMqMsgTest {
 
 	@Test
 	public void thirdPlatformBuildMqMsgTest() throws Exception {
-		for (int x = 0; x<1000 ;x++) {
+		for (int x = 0; x<100 ;x++) {
 			String requestUrl = "http://127.0.0.1:8082/mqCenterInnerServer/mqMsg/thirdPlatformBuildMqMsg";
 			String destUrl = "http://127.0.0.1:8082/mqCenterInnerServer/mqMsg/callbackTest";
 			Map<String, Object> msg = new HashMap();
@@ -31,7 +31,7 @@ public class InnerServerMqMsgTest {
 			param.setRequestPushPlatform(2);
 			param.setRequestPushRemark("无");
 			param.setRequestPushDestAddr(destUrl);
-			Long intervalSecond = Long.valueOf(1+(int)(Math.random()*10));
+			Long intervalSecond = Long.valueOf(3+(int)(Math.random()*10));
 			param.setRequestPushIntervalSecond(intervalSecond);
 			HttpClientUtil.postJson(requestUrl, JsonUtil.objectToJson(param), true);
 		}

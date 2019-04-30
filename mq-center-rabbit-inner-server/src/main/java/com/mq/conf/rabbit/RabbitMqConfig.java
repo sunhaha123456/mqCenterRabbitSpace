@@ -1,6 +1,7 @@
 package com.mq.conf.rabbit;
 
 import com.mq.data.constant.RabbitMqConstant;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
@@ -16,6 +17,7 @@ import java.util.Map;
  * @author sunpeng
  * @date 2019
  */
+@Slf4j
 @Configuration
 public class RabbitMqConfig {
 

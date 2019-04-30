@@ -6,6 +6,9 @@ package com.mq.service;
  * @date 2019
  */
 public interface RabbitMqService {
-    void pushDeadLineMqMsg(String exchange, String queue, Long msgId, Long intervalSecond);
-    void pushDeadLineMqMsgByMsgId(String exchange, String queue, Long msgId, Long intervalSecond);
+
+    void pushDelayedTimeMqMsg(String exchange, String queue, Object msg, Long intervalSecond);
+
+    // ------ 待删除
+    //void pushDeadLineMqMsgByMsgId(String exchange, String queue, Long msgId, Long intervalSecond);
 }

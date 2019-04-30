@@ -29,7 +29,7 @@ public class ThirdPlatformServiceImpl implements ThirdPlatformService {
     private TbMqMsgPushReleationRepository tbMqMsgPushReleationRepository;
 
     @Override
-    public void defaultRemotePostPush(String destAddr, String content, boolean returnLogFlag) {
+    public void synchRequest(String destAddr, String content, boolean returnLogFlag) {
         // 使用 http请求目标地址
         String resp = HttpClientUtil.postJson(destAddr, content, returnLogFlag);
         if (StringUtil.isEmpty(resp)) {
@@ -43,7 +43,7 @@ public class ThirdPlatformServiceImpl implements ThirdPlatformService {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public boolean defaultRemotePostPushByMsg(Long msgId, boolean returnLogFlag) {
+    public boolean synchRequestByMsgId(Long msgId, boolean returnLogFlag) {
         Optional<TbMqMsg> tbMqMsgOptional = tbMqMsgRepository.findById(msgId);
         if (!tbMqMsgOptional.isPresent()) {
             log.error("defaultRemotePostPushByMsgId方法，msgId:{}，001-查无对应数据记录，不再进行推送，默认做吃掉处理", msgId);
@@ -57,7 +57,7 @@ public class ThirdPlatformServiceImpl implements ThirdPlatformService {
         if (msg.getStatus() != 2 && msg.getTotalPushCount() < 3) {
             int status = 1;
             try {
-                defaultRemotePostPush(msg.getRequestPushDestAddr(), msg.getRequestPushMsgContent(), true);
+                synchRequest(msg.getRequestPushDestAddr(), msg.getRequestPushMsgContent(), true);
             } catch (Exception e) {
                 status = 0;
             }
