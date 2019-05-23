@@ -32,6 +32,7 @@ public class HttpClientUtil {
 
     private static Executor executor = new ThreadPoolExecutor(3, 100, 60L, TimeUnit.SECONDS, new SynchronousQueue<Runnable>());
 
+    // demo ：HttpClientUtil.async(() -> HttpClientUtil.postJson("http://127.0.0.1:8081/dubbo-consumer-web/rpc/hello", "body", false));
     public static void async(Runnable runnable){
         executor.execute(runnable);
     }
