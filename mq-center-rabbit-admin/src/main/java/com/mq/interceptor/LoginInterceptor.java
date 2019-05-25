@@ -42,10 +42,6 @@ public class LoginInterceptor implements HandlerInterceptor {
 
     }
 
-    public static void main(String[] args) throws Exception {
-        System.out.println(Md5Util.MD5Encode("123456"));
-    }
-
     @Override
     public void afterCompletion(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o, Exception e) throws Exception {
 
